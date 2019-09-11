@@ -81,19 +81,23 @@ public class OrdersApiController {
             @RequestParam("searchValue") String searchValue,
             @RequestParam("ticketCode") String ticketCode,
             @PathVariable int pageNumber) {
-        PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
-        Page<BookOrderEntity> page = ordersService.searchOrder(searchValue, ticketCode, pageable);
-        List<BookOrderEntity> ordersList = page.getContent();
-        int countPage = page.getTotalPages();
-        List<OrderJson> result = new ArrayList<>();
-        IntStream.range(0, ordersList.size()).forEach(count -> {
-            OrderJson orderJson = new OrderJson();
-            result.add(orderJson.convertBooksOrderEntityToOrderJson(ordersList.get(count)));
-        });
-        ModelMap map = new ModelMap();
-        map.addAttribute("ordersList", result);
-        map.addAttribute("countPages", countPage);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        if (searchValue.isEmpty()) {
+            return getOrdersByTicket(ticketCode, pageNumber);
+        } else {
+            PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
+            Page<BookOrderEntity> page = ordersService.searchOrder(searchValue, ticketCode, pageable);
+            List<BookOrderEntity> ordersList = page.getContent();
+            int countPage = page.getTotalPages();
+            List<OrderJson> result = new ArrayList<>();
+            IntStream.range(0, ordersList.size()).forEach(count -> {
+                OrderJson orderJson = new OrderJson();
+                result.add(orderJson.convertBooksOrderEntityToOrderJson(ordersList.get(count)));
+            });
+            ModelMap map = new ModelMap();
+            map.addAttribute("ordersList", result);
+            map.addAttribute("countPages", countPage);
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
     }
 
 

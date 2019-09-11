@@ -55,7 +55,6 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public Page<BookOrderEntity> searchOrder(String searchValue, String ticketCode, Pageable pageable) {
-        TicketEntity ticketEntity = ticketRepository.findTicketEntityByCode(ticketCode);
-        return ordersRepository.findBookEntitiesByAllParameter(searchValue, pageable);
+        return ordersRepository.findBookEntitiesByAllParameter(searchValue, ticketCode, pageable);
     }
 }

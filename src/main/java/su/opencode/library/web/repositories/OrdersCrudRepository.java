@@ -14,13 +14,16 @@ public interface OrdersCrudRepository extends CrudRepository<BookOrderEntity, In
 
     Page<BookOrderEntity> findBookOrderEntitiesByTicketEntity(TicketEntity ticketEntity, Pageable pageable);
 
-    @Query("select o from BookOrderEntity o where " +
+      @Query("select o from BookOrderEntity o where " +
+            "o.ticketEntity.code = :ticketCode and (" +
             "o.code like concat('%',:searchString,'%') " +
             "or o.startDate like concat('%',:searchString,'%')" +
             "or o.endDate like concat('%',:searchString,'%')" +
-            "or o.realReturnDate like concat('%',:searchString,'%')"
+            "or o.realReturnDate like concat('%',:searchString,'%')"+
+            "or o.id like concat('%',:searchString,'%')) "
+
     )
-    Page<BookOrderEntity> findBookEntitiesByAllParameter(@Param("searchString") String searchString
-                                                       , Pageable pageable);
+    Page<BookOrderEntity> findBookEntitiesByAllParameter(@Param("searchString") String searchString,
+                                                         @Param("ticketCode") String ticketCode, Pageable pageable);
 
 }
