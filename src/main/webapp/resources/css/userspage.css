@@ -1,0 +1,170 @@
+body {
+    margin: 0;
+    background-color: #fdfdfd;
+    background-image: linear-gradient(90deg, transparent 298px, #e673a2 298px, #e673a2 300px, transparent 300px),
+    linear-gradient(#e8e7e7 1px, transparent 0px),
+    linear-gradient(90deg, #e8e7e7 1px, transparent 0px);
+    background-size: 100% 100%, 15px 15px, 15px 15px;
+    background-position: 0 0, -1px -1px, -1px 1px;
+}
+
+#sidebar, #content {
+    position: absolute;
+
+}
+
+#sidebar, #content {
+
+    padding: 10px;
+}
+
+#sidebar {
+    width: 300px;
+    border-right: 2px solid #e673a2;
+    top: 50px; /* Расстояние от верхнего края */
+    bottom: 0; /* Расстояние снизу  */
+
+}
+
+#mySearch {
+    width: 300px;
+    font-size: 18px;
+    padding: 11px;
+    border: 1px solid #ddd;
+}
+
+#catalogsMenu {
+    width: 298px;
+    list-style-type: none;
+    padding: 10px;
+    margin: 0;
+}
+
+#catalogsMenu li a {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    display: block
+}
+
+#catalogsMenu li a:hover {
+    background-color: #eee;
+}
+
+#header h1 {
+    padding: 20px;
+    margin: 0;
+}
+
+
+#content {
+    top: 30px; /* Расстояние от верхнего края */
+    left: 300px; /* Расстояние от левого края */
+    bottom: 3px;
+    overflow: auto;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#countCreate {
+    width: 65px; /* Ширина поля в пикселах */
+}
+
+#tableBooksInCatalog  {
+    display: block;
+    overflow: auto;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 11px;
+    background-color: White;
+}
+
+#historyTable{
+
+    border: 1px solid #ddd;
+    font-size: 11px;
+    background-color: White;
+
+}
+
+#tableBooksInCatalog th, #tableBooksInCatalog td, #historyTable th, #historyTable td {
+
+    text-align: center;
+    padding: 12px;
+}
+
+#tableBooksInCatalog tr, #historyTable tr {
+    border-bottom: 1px solid #ddd;
+
+}
+
+#tableBooksInCatalog tr.header, #tableBooksInCatalog tr:hover, #historyTable tr.header, #historyTable tr:hover {
+
+    background-color: #f1f1f1;
+}
+
+#actionButtonGroup {
+    position: absolute;
+    bottom: 30px;
+    left: 10px;
+    width: 95%;
+
+}
+
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    max-width: 300px;
+    margin-left: 125px;
+    background-color: #808080;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    right: 10px;
+    top: 30px;
+    font-size: 17px;
+}
+
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+#ordersBooksTable {
+    display: block;
+    overflow: auto;
+    max-height: 30%;
+    border-collapse: collapse;
+    max-width: 100%;
+    border: 1px solid #ddd;
+    font-size: 11px;
+}
+
+body .modal-dialog { /* Width */
+    max-width: 70%;
+    width: auto;
+}
+
+
+#ordersBooksTable th, #ordersBooksTable td {
+    text-align: center;
+    padding: 12px;
+}
+
+#ordersBooksTable tr {
+    border-bottom: 1px solid #ddd;
+
+}
+
+#ordersBooksTable tr.header, #ordersBooksTable tr:hover {
+    background-color: #f1f1f1;
+}
