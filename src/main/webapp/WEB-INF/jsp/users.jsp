@@ -34,7 +34,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="directory">Каталог книг</a></li>
-            <li><a href="readers" class="active">Пользователи</a></li>
+            <li><a href="users" class="active">Пользователи</a></li>
             <li><a href="#">Журнал выдачи книг</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -413,7 +413,6 @@
                     div_data += ' <input type="text" style= "display:inline; width:550px" name="bookSearch" id="bookSearch" onkeyup="findBook();" class="form-control" placeholder="Введите любую информацию о книге..."/>';
                     div_data += '<div style="float:right">';
                     div_data += '<a style="display:inline; margin-right: 10px;" id="choosenBooksCount">Отмечено книг (0)</a>';
-                    div_data += '<a class="btn btn-success" onClick = "checkCheckboxes(' + "'createOrder'" + ')" style="display:inline">Сформировать заказ</a>';
                     div_data += '</div>';
                     div_data += '<br/>';
                     div_data += '<br/>';

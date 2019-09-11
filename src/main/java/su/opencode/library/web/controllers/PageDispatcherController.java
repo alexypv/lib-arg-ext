@@ -33,9 +33,9 @@ public class PageDispatcherController {
         return "directory";
     }
 
-    @RequestMapping("/administration")
+    @RequestMapping("/users")
     public String administration() {
-        return "administration";
+        return "users";
     }
 
 

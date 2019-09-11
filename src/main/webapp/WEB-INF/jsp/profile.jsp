@@ -27,7 +27,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="directory">Каталог книг</a></li>
-            <li><a href="#">Пользователи</a></li>
+            <li><a href="users">Пользователи</a></li>
             <li><a href="#">Журнал выдачи книг</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
