@@ -2,6 +2,7 @@ package su.opencode.library.web.service.book;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -44,6 +45,11 @@ public class BookServiceImpl implements BookService {
             books.add(getBookById(id[count]));
         }
         return books;
+    }
+
+    @Override
+    public Page<BookEntity> getBooksInOrder(int orderID, Pageable pageable) {
+        return bookRepository.getBooksInOrder(orderID, pageable);
     }
 
     /**

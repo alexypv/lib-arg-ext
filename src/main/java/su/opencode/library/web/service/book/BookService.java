@@ -1,5 +1,6 @@
 package su.opencode.library.web.service.book;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.ModelMap;
 import su.opencode.library.web.model.entities.BookEntity;
@@ -78,5 +79,7 @@ public interface BookService {
     void moveBook(int[] books_id, int newCatalogId, int updater_id);
 
     List<BookJson> getBooksById(int[] id);
+
+    Page<BookEntity> getBooksInOrder(int orderID, Pageable pageable);
 
 }

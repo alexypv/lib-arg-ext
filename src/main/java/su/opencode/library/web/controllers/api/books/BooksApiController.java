@@ -1,12 +1,14 @@
 package su.opencode.library.web.controllers.api.books;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import su.opencode.library.web.model.entities.BookEntity;
 import su.opencode.library.web.model.entities.RoleEntity;
 import su.opencode.library.web.secure.JwtUser;
 import su.opencode.library.web.service.book.BookService;
@@ -14,8 +16,11 @@ import su.opencode.library.web.service.roles.RolesService;
 import su.opencode.library.web.service.user.UserService;
 import su.opencode.library.web.utils.JsonObject.BookJson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.IntStream;
 
 @RestController
 public class BooksApiController {
@@ -159,6 +164,26 @@ public class BooksApiController {
             map.addAttribute("Error message", HttpStatus.INTERNAL_SERVER_ERROR);
             return new ResponseEntity<>(map, HttpStatus.OK);
         }
+    }
+
+    @RequestMapping(value = "/api/books/getBooksInOrder/{pageNumber}", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity getBooksInOrder(@PathVariable int pageNumber,
+                                          @RequestParam ("orderID") int orderID) {
+        PageRequest pageable = PageRequest.of(pageNumber -1, 10);
+        Page<BookEntity> pageBooks = bookService.getBooksInOrder(orderID, pageable);
+        List<BookEntity> booksList = pageBooks.getContent();
+        int countPage = pageBooks.getTotalPages();
+        List<BookJson> result = new ArrayList<>();
+
+        IntStream.range(0, booksList.size()).forEach(count -> {
+            BookJson bookJson = new BookJson();
+            result.add(bookJson.convertBookEntityToBookJson(booksList.get(count)));
+        });
+        ModelMap map = new ModelMap();
+        map.addAttribute("booksList", result);
+        map.addAttribute("countPages", countPage);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+
     }
 
 }
