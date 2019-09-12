@@ -1,6 +1,7 @@
 package su.opencode.library.web.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +13,9 @@ import su.opencode.library.web.repositories.UserCrudRepository;
 import su.opencode.library.web.repositories.UserImageCrudRepository;
 import su.opencode.library.web.secure.JwtTokenProvider;
 import su.opencode.library.web.secure.JwtUser;
+import su.opencode.library.web.utils.CodeGenerator;
 import su.opencode.library.web.utils.JsonObject.RoleJson;
 import su.opencode.library.web.utils.JsonObject.UserJson;
-import su.opencode.library.web.utils.CodeGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +117,7 @@ public class UserServiceImpl implements UserService {
             }
             ModelMap map = new ModelMap();
             map.addAttribute("usersList", result);
-            map.addAttribute("countPage", userRepository.findUserEntityByRolesAndLibraryEntity(roleEntity, libraryEntity, pageable).getTotalPages());
+            map.addAttribute("countPages", userRepository.findUserEntityByRolesAndLibraryEntity(roleEntity, libraryEntity, pageable).getTotalPages());
             RoleJson roleJson = new RoleJson();
             map.addAttribute("currentCatalog", roleJson.convertRoleEntityToRoleJson(roleRepository.findById(role_id).get()));
             map.addAttribute("currentLibraryId", library_id);
@@ -155,4 +156,10 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = getUserById(user_id);
         userImageCrudRepository.deleteUserImageEntityByUserEntity(userEntity);
     }
+
+    @Override
+    public Page<UserEntity> searchUser(String searchValue, int library_id, int role_id, Pageable pageable) {
+        return userRepository.findUserEntitiesByAllParameter(searchValue, library_id, role_id, pageable);
+    }
+
 }

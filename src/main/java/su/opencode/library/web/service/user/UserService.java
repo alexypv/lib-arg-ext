@@ -1,5 +1,6 @@
 package su.opencode.library.web.service.user;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.ModelMap;
 import su.opencode.library.web.model.entities.UserEntity;
@@ -25,5 +26,5 @@ public interface UserService {
 
     ModelMap getUsersByRolesAndLibrary(int role_id, Pageable pageable , int library_id);
 
-
+    Page<UserEntity> searchUser(String searchValue, int library_id, int role_id, Pageable pageable);
 }

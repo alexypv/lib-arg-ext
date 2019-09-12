@@ -1,9 +1,10 @@
-function getHistory(pageNumber) {
+function searchHistory(pageNumber) {
     var code = $('#ticketCode').val();
+    var searchValue = $('#searchHistoryField').val();
     $.ajax({
         type: "POST",
-        url: 'api/orders/getHistory/' + pageNumber,
-        data: {'ticketCode': code},
+        url: 'api/search/findOrder/' + pageNumber,
+        data: {'ticketCode': code, 'searchValue': searchValue},
         success: function (data, textStatus) {
             var div_data = '';
             for (var key in data.ordersList) {
@@ -24,14 +25,13 @@ function getHistory(pageNumber) {
                     $('#light-pagination-history').pagination({
                         items: parseInt(countPages),
                         itemsOnPage: 1,
-                        cssStyle: 'light-theme',
-                        fieldName: 'historyField'
+                        cssStyle: 'light-theme'
                     });
                 });
             }
+
+            $('#historyTableContent').html('');
             $('#historyTableContent').html(div_data);
-            $('#historyHeader').html('История заказов читателя № ' + code);
-            $('#historyWindow').modal('show');
 
 
         },
@@ -40,7 +40,7 @@ function getHistory(pageNumber) {
             if (jqXHR.status == 403) {
                 $('#feedback').html('Доступ запрещен!');
             } else {
-                $('#feedback').html('Произошла ошибка при создании заказа: ' + jqXHR.responseText);
+                $('#feedback').html('Произошла ошибка при поиске заказа: ' + jqXHR.responseText);
             }
             $('#resultWindow').modal('show');
         }

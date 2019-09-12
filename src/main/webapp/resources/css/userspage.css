@@ -44,7 +44,8 @@ body {
     padding: 10px;
     text-decoration: none;
     color: black;
-    display: block
+    display: block;
+    cursor: pointer;
 }
 
 #catalogsMenu li a:hover {
@@ -72,7 +73,7 @@ body {
     width: 65px; /* Ширина поля в пикселах */
 }
 
-#tableBooksInCatalog  {
+#tableBooksInCatalog {
     display: block;
     overflow: auto;
     border-collapse: collapse;
@@ -82,7 +83,7 @@ body {
     background-color: White;
 }
 
-#historyTable{
+#historyTable {
 
     border: 1px solid #ddd;
     font-size: 11px;
@@ -91,9 +92,10 @@ body {
 }
 
 #tableBooksInCatalog th, #tableBooksInCatalog td, #historyTable th, #historyTable td {
-
+    cursor: pointer;
     text-align: center;
     padding: 12px;
+
 }
 
 #tableBooksInCatalog tr, #historyTable tr {
@@ -102,7 +104,7 @@ body {
 }
 
 #tableBooksInCatalog tr.header, #tableBooksInCatalog tr:hover, #historyTable tr.header, #historyTable tr:hover {
-
+    cursor: pointer;
     background-color: #f1f1f1;
 }
 

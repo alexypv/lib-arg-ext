@@ -32,9 +32,15 @@
                 invertPageOrder: false,
                 useStartEdge: true,
                 useEndEdge: true,
+                fieldName: '',
 
-                onPageClick: function (pageNumber, event) {
-                    getHistory(pageNumber);
+                onPageClick: function (pageNumber, event, fieldName) {
+                    if (fieldName === 'historyField') {
+                        getHistory(pageNumber);
+                    }
+                    if (fieldName === 'usersField') {
+                        uploadUsers(pageNumber);
+                    }
                 },
                 onInit: function () {
                     // Callback triggered immediately after initialization
@@ -343,7 +349,7 @@
             if (o.selectOnClick) {
                 methods._draw.call(this);
             }
-            return o.onPageClick(pageIndex + 1, event);
+            return o.onPageClick(pageIndex + 1, event, o.fieldName);
         },
 
 

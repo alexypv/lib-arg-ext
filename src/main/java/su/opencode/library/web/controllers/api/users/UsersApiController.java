@@ -51,18 +51,33 @@ public class UsersApiController {
         }
     }
 
-    @RequestMapping(value = "/api/users/getUsers/{role_id}/{pageNumber}", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity getUsersByRoleAndLibrary(
-            @PathVariable int role_id,
+    @RequestMapping(value = "/api/users/getUsersInLibrary/{pageNumber}", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity getUsersByRoleAndJwtLib(
+            @RequestParam int role_id,
             @PathVariable int pageNumber
     ) {
         JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         jwtUser.setCurrentPage(pageNumber);
         jwtUser.setCurrentSection(String.valueOf(role_id));
-        PageRequest pageable = PageRequest.of(pageNumber - 1, 15);
+        PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
         return new ResponseEntity<>(userService.getUsersByRolesAndLibrary(role_id, pageable, jwtUser.getLibrary_id()), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/api/users/getUsers/{pageNumber}", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity getUsersByRoleAndLibrary(
+            @RequestParam ("role_id") int role_id,
+            @RequestParam ("library_id")int library_id,
+            @PathVariable int pageNumber
+    ) {
+        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        jwtUser.setCurrentPage(pageNumber);
+        jwtUser.setCurrentSection(String.valueOf(role_id));
+        PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
+        return new ResponseEntity<>(userService.getUsersByRolesAndLibrary(role_id, pageable, library_id), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/api/users/getUserInfo/{id}", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity getUserInfo(
