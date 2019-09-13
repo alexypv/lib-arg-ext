@@ -1,4 +1,5 @@
 function loadRoles() {
+    $("#feedback").html('');
     $.ajax({
         type: "POST",
         url: 'api/roles/getRoles',
@@ -11,7 +12,7 @@ function loadRoles() {
             div_data += '<br/>';
             div_data += '<br/>';
             div_data += '<input class="form-control" type="text" id="catalogSearchInfo" onkeyup="searchCatalog()" placeholder="Введите название каталога..." title="Поиск по каталогам">';
-            div_data += '<ul id="catalogsMenu">';
+            div_data += '<ul id="rolesMenu">';
             for (var key in data.rolesList) {
 			if(data.rolesList[key].name === 'ROLE_ADMIN') {
                 div_data += '<li> <a  data-field="role_id" name = "' + data.rolesList[key].name + '" data-value="' + data.rolesList[key].id + '"><b>Администратор библиотеки</b></a></li>';

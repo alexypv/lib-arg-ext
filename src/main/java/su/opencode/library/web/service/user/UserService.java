@@ -3,6 +3,7 @@ package su.opencode.library.web.service.user;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.ModelMap;
+import su.opencode.library.web.model.entities.RoleEntity;
 import su.opencode.library.web.model.entities.UserEntity;
 import su.opencode.library.web.model.entities.UserImageEntity;
 import su.opencode.library.web.secure.JwtUser;
@@ -14,7 +15,7 @@ public interface UserService {
 
     UserEntity getUserByUsername(String username);
 
-    String createUser(String username, String password, String surname, String name, String secondName, int library_id, int role_id, int creator_id);
+    String createUser(String username, String password, String surname, String name, String secondName, int library_id, int role_id, int creator_id, String creatorRole);
 
     void uploadImage(int user_id, byte[] file);
 

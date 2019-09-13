@@ -168,8 +168,8 @@ public class BooksApiController {
 
     @RequestMapping(value = "/api/books/getBooksInOrder/{pageNumber}", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity getBooksInOrder(@PathVariable int pageNumber,
-                                          @RequestParam ("orderID") int orderID) {
-        PageRequest pageable = PageRequest.of(pageNumber -1, 10);
+                                          @RequestParam("orderID") int orderID) {
+        PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
         Page<BookEntity> pageBooks = bookService.getBooksInOrder(orderID, pageable);
         List<BookEntity> booksList = pageBooks.getContent();
         int countPage = pageBooks.getTotalPages();
@@ -183,7 +183,5 @@ public class BooksApiController {
         map.addAttribute("booksList", result);
         map.addAttribute("countPages", countPage);
         return new ResponseEntity<>(map, HttpStatus.OK);
-
     }
-
 }

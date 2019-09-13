@@ -1,4 +1,5 @@
 function deleteBooks() {
+    $("#feedback").html('');
     var div_data = '';
     div_data += '<form name="choosenBooksForDeleteForm">';
     div_data += '<input type="hidden" id="choosenBooksForDelete" name="choosenBooksForDelete" value=""/>';
@@ -13,7 +14,7 @@ function deleteBooks() {
             refreshTable(data);
             $('#confirmActionWindow').modal('hide');
             $('#resultAction').html('Успешно!');
-            $('#feedback').html('Выбранные книги были успешно удалены!');
+            $('#feedbackDescription').html('Выбранные книги были успешно удалены!');
             $('#resultWindow').modal('show');
             $('#selectedBooks').val('');
 
@@ -22,9 +23,9 @@ function deleteBooks() {
             $('#confirmActionWindow').modal('hide');
             $('#resultAction').html('Ошибка!');
             if (jqXHR.status == 403) {
-                $("#feedbackDescription").html('Доступ запрещен!');
+                $("#feedback").html('Доступ запрещен!');
             } else {
-                $("#feedbackDescription").html('Произошла ошибка при удалении книг: ' + jqXHR.responseText);
+                $("#feedback").html('Произошла ошибка при удалении книг: ' + jqXHR.responseText);
             }
             $('#resultWindow').modal('show');
         }

@@ -1,4 +1,5 @@
 function createUser() {
+    $("#feedback").html('');
     $.ajax({
         type: "POST",
         url: 'api/users/createUser',
@@ -16,9 +17,9 @@ function createUser() {
             $('#bookInfoWindow').modal('hide');
             $('#resultAction').html('Ошибка!');
             if (jqXHR.status == 403) {
-                $("#feedbackDescription").html('Доступ запрещен!');
+                $("#feedback").html('Доступ запрещен!');
             } else {
-                $("#feedbackDescription").html('Произошла ошибка при создании пользователя: ' + jqXHR.responseText);
+                $("#feedback").html('Произошла ошибка при создании пользователя: ' + jqXHR.responseText);
             }
             $('#resultWindow').modal('show');
         }

@@ -1,5 +1,6 @@
 $("#content").on('dblclick', "tr", function () {
     $('#userInfoField').html('');
+    $("#feedback").html('');
     var user_id;
     $(this).find("td")
         .each(function () {
@@ -41,6 +42,13 @@ $("#content").on('dblclick', "tr", function () {
             $('#userInfoWindow').modal('show');
         },
         error: function (textStatus, errorThrown) {
+            $('#resultAction').html('Ошибка!');
+            if (jqXHR.status == 403) {
+                $('#feedback').html('Доступ запрещен!');
+            } else {
+                $('#feedback').html('Произошла ошибка при загрузке информации о пользователе!: ' + jqXHR.responseText);
+            }
+            $('#resultWindow').modal('show');
         }
     });
 

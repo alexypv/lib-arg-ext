@@ -36,10 +36,17 @@
 
                 onPageClick: function (pageNumber, event, fieldName) {
                     if (fieldName === 'historyField') {
-                        getHistory(pageNumber);
+                        getOrders(pageNumber);
                     }
                     if (fieldName === 'usersField') {
-                        uploadUsers(pageNumber);
+						var role_id = $('#newRole').val();
+						var library_id = $('#newLibrary').val();
+                        uploadUsers(pageNumber,role_id, library_id);
+                    }
+					
+					 if (fieldName === 'orderInfoField') {
+						var orderID = $('#currentOrderID').val();
+                        getOrderInfo(pageNumber, orderID);
                     }
                 },
                 onInit: function () {

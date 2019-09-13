@@ -1,26 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
-
     <link type="text/css" rel="stylesheet" href="resources/css/simplePagination.css"/>
-
     <link type="text/css" rel="stylesheet" href="resources/css/directorypage.css"/>
     <script src="resources/js/jquery/3.3.1/jquery.min.js"></script>
     <script src="resources/js/bootstrap/3.4.0/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <script type="text/javascript" src="resources/js/jquery/jquery.simplePagination.js"></script>
     <script type="text/javascript" src="resources/js/directorypage/catalog.create.js"></script>
     <script type="text/javascript" src="resources/js/directorypage/catalog.delete.js" async></script>
     <script type="text/javascript" src="resources/js/directorypage/catalog.load.all.js" async></script>
     <script type="text/javascript" src="resources/js/directorypage/catalog.open.js" async></script>
-
     <script type="text/javascript" src="resources/js/directorypage/book/catalog.create-book.js"></script>
     <script type="text/javascript" src="resources/js/directorypage/book/catalog.delete-book.js"></script>
     <script type="text/javascript" src="resources/js/directorypage/book/catalog.move-book.js"></script>
@@ -45,16 +40,21 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="directory">Каталог книг</a></li>
-            <li><a href="users">Пользователи</a></li>
+            <li><a href="users" class="active">Пользователи</a></li>
             <li><a href="#">Журнал выдачи книг</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="profile"><span class="glyphicon glyphicon-user"></span>${username}</a></li>
-            <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Выйти</a></li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">${username}<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="profile">Личный кабинет</a></li>
+                    <li><a href="logout">Выйти</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>
-
 <div id="sidebar"></div>
 <div id="content"></div>
 <div id="buttonPanel"></div>
@@ -72,32 +72,32 @@
                     <label for="newISBNBookNumber">ISBN:</label>
                     <input id="newISBNBookNumber" value="" onkeypress="validateNumericField(event)" class="form-control"
                            placeholder="Введите ISBN-номер книги" name="newISBNBookNumber" type="text" maxlength="13"
-                           aria-required="true"></input>
+                           aria-required="true"/>
                     <label for="newAuthorLastName">Фамилия автора:</label>
                     <input id="newAuthorLastName" class="form-control" name="newAuthorLastName"
-                           placeholder="Введите фамилию автора" type="text" aria-required="true"></input>
+                           placeholder="Введите фамилию автора" type="text" aria-required="true"/>
                     <label for="newAuthorFirstName">Имя автора:</label>
                     <input id="newAuthorFirstName" class="form-control" name="newAuthorFirstName"
-                           placeholder="Введите имя автора" type="text" aria-required="true"></input>
+                           placeholder="Введите имя автора" type="text" aria-required="true"/>
                     <label for="newAuthorSecondName">Отчество автора:</label>
                     <input id="newAuthorSecondName" class="form-control" name="newAuthorSecondName"
-                           placeholder="Введите отчество автора" type="text" aria-required="true"></input>
+                           placeholder="Введите отчество автора" type="text" aria-required="true"/>
                     <label for="newBookName">Название книги:</label>
                     <input id="newBookName" class="form-control" name="newBookName" placeholder="Введите название книги"
-                           type="text" aria-required="true"></input>
+                           type="text" aria-required="true"/>
                     <label for="newPublishingName">Издательство:</label>
                     <input id="newPublishingName" class="form-control" name="newPublishingName"
-                           placeholder="Введите название издательства" type="text" aria-required="true"></input>
+                           placeholder="Введите название издательства" type="text" aria-required="true"/>
                     <label for="newYearPublishing">Год издания:</label>
                     <input id="newYearPublishing" width="50" value="" onkeypress="validateNumericField(event)"
                            class="form-control" placeholder="Введите год издания книги" name="newYearPublishing"
-                           type="text" maxlength="4" size="4" aria-required="true"></input>
+                           type="text" maxlength="4" size="4" aria-required="true"/>
                     <label for="createFormCatalogId">Поместить в каталог:</label>
                     <div id="createFormCatalogId" class="catalogsList">
                     </div>
                     <label for="countCreate">Количество:</label>
                     <input id="countCreate" width="50" type="number" name="countCreate" class="form-control" min="1"
-                           max="99" size="4"></input>
+                           max="99" size="4"/>
                 </form>
             </div>
             <div class="modal-footer">
@@ -120,7 +120,7 @@
                 <form name="createCatalogForm">
                     <label for="newCatalogName">Название:</label>
                     <input id="newCatalogName" value="" class="form-control" placeholder="Введите название каталога"
-                           name="newCatalogName" type="text" aria-required="true"></input>
+                           name="newCatalogName" type="text" aria-required="true"/>
                 </form>
             </div>
             <div class="modal-footer">
@@ -139,11 +139,9 @@
                 <center><h4 class="modal-title">Удаление каталога</h4></center>
             </div>
             <div class="modal-body">
-                <center>
                     <center><p id="confirmAnswerDeleteCatalog">Выберите каталог(и) для удаления</p>
                         <form id="deleteCatalogForm" name="deleteCatalogForm" class="catalogsList">
                         </form>
-
                     </center>
             </div>
             <div class="modal-footer">
@@ -182,10 +180,9 @@
             </div>
             <div class="modal-body">
                 <center><p id="confirmAnswerMoveBooks">Книги будут перемещены в выбранный каталог.</p>
-                    <label for="newCatalogId">Выберите каталог:
-                    </label>
+                    <label>Выберите каталог:</label>
                     <form name="moveBooksForm" class="catalogsList" id="moveBooksForm">
-                        <input type="hidden" id="choosenBooks" name="choosenBooks" value=""></input>
+                        <input type="hidden" id="choosenBooks" name="choosenBooks" value=""/>
                     </form>
                 </center>
             </div>
@@ -248,12 +245,12 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div style="text-align: center;"><h4 class="modal-title">Формирование заказа (Предпросмотр)</h4></div>
             </div>
-            <input type="hidden" name="selectedBooks" id="selectedBooks"></input>
+            <input type="hidden" name="selectedBooks" id="selectedBooks"/>
 
 
             <div id="giveOrderContainer" style="margin: 5px">
                 <div class="col-sm-4">
-                    <label for="readersList" class="fb-date-label">Читатель</label>
+                    <label for="search" class="fb-date-label">Читатель</label>
                     <div align="center">
                         <input type="text" name="search" id="search" placeholder="Введите № чит. билета" class="form-control" />
                     </div>
@@ -262,11 +259,11 @@
                 <form id="giveOrderForm" name="giveOrderForm">
                     <div class="col-sm-4">
                         <label for="giveDate" class="fb-date-label">Дата выдачи</label>
-                        <input type="date" class="form-control" name="giveDate" id="giveDate"></input>
+                        <input type="date" class="form-control" name="giveDate" id="giveDate"/>
                     </div>
                     <div class="col-sm-4">
                         <label for="returnDate" class="fb-date-label">Дата возврата</label>
-                        <input type="date" class="form-control" name="returnDate" id="returnDate"></input>
+                        <input type="date" class="form-control" name="returnDate" id="returnDate"/>
                     </div>
                     <h4>Выбранные книги</h4>
                     <div id="ordersContent">
@@ -291,8 +288,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <input type="hidden" id="ticketCode" name="ticketCode"></input>
-                    <input type="hidden" id="orderBooks" name="orderBooks"></input>
+                    <input type="hidden" id="ticketCode" name="ticketCode"/>
+                    <input type="hidden" id="orderBooks" name="orderBooks"/>
                 </form>
             </div>
             <div class="modal-footer">
@@ -302,11 +299,10 @@
         </div>
     </div>
 </div>
-</div>
 
 <script>
     $('#search').keypress(function(e){
-        if(e.which == 13){
+        if(e.which === 13){
             $('#result').html('');
             $('#state').val('');
             var searchField = $('#search').val();
@@ -322,8 +318,8 @@
                     },
                     error: function (jqXHR, errorThrown) {
                         $('#confirmActionWindow').modal('hide');
-                        $('#resultAction').html('Произошла ошибка!')
-                        if (jqXHR.status == 403) {
+                        $('#resultAction').html('Произошла ошибка!');
+                        if (jqXHR.status === 403) {
                             $("#feedbackDescription").html('Доступ запрещен!');
                         } else {
                             $("#feedbackDescription").html('Произошла ошибка поиска чит. билета: ' + jqXHR.responseText);
@@ -392,9 +388,7 @@
             arr = Array.from(new Set(arr));
             $('#selectedBooks').val(arr);
             $('#choosenBooksCount').html('Отмечено книг (' + arr.length + ')');
-
         }
-
     });
 
     function selectAllBooks(obj) {
@@ -477,9 +471,7 @@
 <script type="text/javascript">
     function getCheckedBooksInOrderForm() {
         var selectedCheckBoxes = document.querySelectorAll('input.checkboxBooksInOrder:checked');
-        var checkedValues = Array.from(selectedCheckBoxes).map(cb => cb.value
-    )
-        ;
+        var checkedValues = Array.from(selectedCheckBoxes).map(cb => cb.value);
         return checkedValues;
     }
 </script>
@@ -507,6 +499,5 @@
         alert(getCheckedBooksInOrderForm())
     }
 </script>
-
 </body>
 </html>

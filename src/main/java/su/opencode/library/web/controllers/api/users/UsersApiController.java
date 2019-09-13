@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +13,8 @@ import su.opencode.library.web.secure.JwtUser;
 import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
 import su.opencode.library.web.utils.JsonObject.UserJson;
-
 import javax.xml.bind.DatatypeConverter;
+
 
 @RestController
 public class UsersApiController {
@@ -40,14 +41,14 @@ public class UsersApiController {
         JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         try {
-            PageRequest pageable = PageRequest.of(jwtUser.getCurrentPage() - 1, 15);
-            String newTicketCode = userService.createUser(username, password, surname, name, secondname, library_id, role_id, jwtUser.getId());
+            PageRequest pageable = PageRequest.of(jwtUser.getCurrentPage() - 1, 10);
+            String newTicketCode = userService.createUser(username, password, surname, name, secondname, library_id, role_id, jwtUser.getId(), jwtUser.getAuthorities().toString());
             ModelMap map = userService.getUsersByRolesAndLibrary(role_id, pageable, jwtUser.getLibrary_id());
             map.addAttribute("newTicketCode", newTicketCode);
             return new ResponseEntity<>(map, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getStackTrace(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        catch (AccessDeniedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
 
@@ -144,7 +145,7 @@ public class UsersApiController {
             jwtUser.setSecondname(userEntity.getSecondName());
 
             if (getPageUser) {
-                PageRequest pageable = PageRequest.of(jwtUser.getCurrentPage() - 1, 15);
+                PageRequest pageable = PageRequest.of(jwtUser.getCurrentPage() - 1, 10);
                 return new ResponseEntity<>(userService.getUsersByRolesAndLibrary(Integer.valueOf(jwtUser.getCurrentSection()), pageable, jwtUser.getLibrary_id()), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("User information has been edited successfully.", HttpStatus.OK);

@@ -2,16 +2,16 @@ function refreshTable(data) {
     var div_data = '';
         for (var key in data.usersList) {
                 div_data += '<tr>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '"><input class="checkboxBooks" type="checkbox" value="' + data.usersList[key].id + '" /></td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].ticketCode + '</td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].username + '</td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].surname + '</td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].name + '</td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].secondName + '</td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].creatorName + '</td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].createdWhen + '</td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].updaterName + '</td>';
-                div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">' + data.usersList[key].updatedWhen + '</td>';
+                div_data += '<td><input class="checkboxBooks" type="checkbox" value="' + data.usersList[key].id + '" /></td>';
+                div_data += '<td>' + data.usersList[key].ticketCode + '</td>';
+                div_data += '<td>' + data.usersList[key].username + '</td>';
+                div_data += '<td>' + data.usersList[key].surname + '</td>';
+                div_data += '<td>' + data.usersList[key].name + '</td>';
+                div_data += '<td>' + data.usersList[key].secondName + '</td>';
+                div_data += '<td>' + data.usersList[key].creatorName + '</td>';
+                div_data += '<td>' + data.usersList[key].createdWhen + '</td>';
+                div_data += '<td>' + data.usersList[key].updaterName + '</td>';
+                div_data += '<td>' + data.usersList[key].updatedWhen + '</td>';
                 
 				if (data.usersList[key].roleName === 'ROLE_ADMIN') {
                     div_data += '<td data-field="book_id" data-value= "' + data.usersList[key].id + '">Администратор библиотеки</td>';

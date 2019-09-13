@@ -34,8 +34,15 @@ public class PageDispatcherController {
     }
 
     @RequestMapping("/users")
-    public String administration() {
-        return "users";
+    public ModelAndView users() {
+        ModelAndView modelAndView = new ModelAndView();
+        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        modelAndView.setViewName("users");
+        String username = jwtUser.getUsername();
+        modelAndView.addObject("username", username);
+        modelAndView.addObject("currentLibrary", jwtUser.getLibrary_id());
+        return modelAndView;
     }
 
 

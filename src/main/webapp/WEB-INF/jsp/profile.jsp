@@ -1,9 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" content="width=device-width, initial-scale=1" name="viewport">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -27,12 +26,18 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="directory">Каталог книг</a></li>
-            <li><a href="users">Пользователи</a></li>
+            <li><a href="users" class="active">Пользователи</a></li>
             <li><a href="#">Журнал выдачи книг</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="profile"><span class="glyphicon glyphicon-user"></span>${username}</a></li>
-            <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Выйти</a></li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">${username}<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="profile">Личный кабинет</a></li>
+                    <li><a href="logout">Выйти</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>

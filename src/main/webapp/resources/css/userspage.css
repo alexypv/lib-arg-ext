@@ -26,21 +26,15 @@ body {
 
 }
 
-#mySearch {
-    width: 300px;
-    font-size: 18px;
-    padding: 11px;
-    border: 1px solid #ddd;
-}
 
-#catalogsMenu {
+#rolesMenu {
     width: 298px;
     list-style-type: none;
     padding: 10px;
     margin: 0;
 }
 
-#catalogsMenu li a {
+#rolesMenu li a {
     padding: 10px;
     text-decoration: none;
     color: black;
@@ -48,7 +42,7 @@ body {
     cursor: pointer;
 }
 
-#catalogsMenu li a:hover {
+#rolesMenu li a:hover {
     background-color: #eee;
 }
 
@@ -73,7 +67,7 @@ body {
     width: 65px; /* Ширина поля в пикселах */
 }
 
-#tableBooksInCatalog {
+#tableUsers {
     display: block;
     overflow: auto;
     border-collapse: collapse;
@@ -83,7 +77,7 @@ body {
     background-color: White;
 }
 
-#historyTable {
+#historyTable, #orderInfoTable {
 
     border: 1px solid #ddd;
     font-size: 11px;
@@ -91,19 +85,19 @@ body {
 
 }
 
-#tableBooksInCatalog th, #tableBooksInCatalog td, #historyTable th, #historyTable td {
+#tableUsers th, #tableUsers td, #historyTable th, #historyTable, #orderInfoTable th, #orderInfoTable td td {
     cursor: pointer;
     text-align: center;
     padding: 12px;
 
 }
 
-#tableBooksInCatalog tr, #historyTable tr {
+#tableUsers tr, #historyTable tr, #orderInfoTable td {
     border-bottom: 1px solid #ddd;
 
 }
 
-#tableBooksInCatalog tr.header, #tableBooksInCatalog tr:hover, #historyTable tr.header, #historyTable tr:hover {
+#tableUsers tr.header, #tableUsers tr:hover, #historyTable tr.header, #historyTable tr:hover, #orderInfoTable tr.header, #orderInfoTable tr:hover {
     cursor: pointer;
     background-color: #f1f1f1;
 }

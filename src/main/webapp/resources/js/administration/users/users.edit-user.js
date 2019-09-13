@@ -1,4 +1,5 @@
 function editUser() {
+    $("#feedback").html('');
     $.ajax({
         type: "POST",
         url: 'api/users/changeUserInfo/true',
@@ -8,7 +9,7 @@ function editUser() {
             $('#confirmActionWindow').modal('hide');
             $('#bookInfoWindow').modal('hide');
             $('#resultAction').html('Успешно!');
-            $('#feedback').html('Информация о пользователе успешно изменена!');
+            $('#feedbackDescription').html('Информация о пользователе успешно изменена!');
             $('#resultWindow').modal('show');
         },
         error: function (jqXHR, errorThrown) {
@@ -17,9 +18,9 @@ function editUser() {
             $('#bookInfoWindow').modal('hide');
             $('#resultAction').html('Ошибка!');
             if (jqXHR.status == 403) {
-                $("#feedbackDescription").html('Доступ запрещен!');
+                $("#feedback").html('Доступ запрещен!');
             } else {
-                $("#feedbackDescription").html('Произошла ошибка при изменении информации о пользователе: ' + jqXHR.responseText);
+                $("#feedback").html('Произошла ошибка при изменении информации о пользователе: ' + jqXHR.responseText);
             }
             $('#resultWindow').modal('show');
         }
