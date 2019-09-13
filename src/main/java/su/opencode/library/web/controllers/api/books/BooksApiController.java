@@ -1,6 +1,5 @@
 package su.opencode.library.web.controllers.api.books;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -8,11 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import su.opencode.library.web.controllers.BaseController;
 import su.opencode.library.web.model.entities.BookEntity;
 import su.opencode.library.web.model.entities.RoleEntity;
 import su.opencode.library.web.secure.JwtUser;
 import su.opencode.library.web.service.book.BookService;
+import su.opencode.library.web.service.catalog.CatalogService;
+import su.opencode.library.web.service.library.LibraryService;
+import su.opencode.library.web.service.order.OrdersService;
 import su.opencode.library.web.service.roles.RolesService;
+import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
 import su.opencode.library.web.utils.JsonObject.BookJson;
 
@@ -23,27 +27,20 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @RestController
-public class BooksApiController {
+public class BooksApiController extends BaseController {
 
-    private final BookService bookService;
-    private final RolesService rolesService;
-    private final UserService userService;
 
-    @Autowired
-    public BooksApiController(BookService bookService, RolesService rolesService, UserService userService) {
-        this.bookService = bookService;
-        this.rolesService = rolesService;
-        this.userService = userService;
+    public BooksApiController(BookService bookService, RolesService rolesService, UserService userService, CatalogService catalogService, OrdersService ordersService, TicketService ticketService, LibraryService libraryService) {
+        super(bookService, rolesService, userService, catalogService, ordersService, ticketService, libraryService);
     }
 
     @RequestMapping(value = "/api/books/openCatalog/{id}/{pageNumber}", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity getBooksInCatalog(@PathVariable String id,
                                             @PathVariable int pageNumber) {
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+
         jwtUser.setCurrentPage(pageNumber);
         jwtUser.setCurrentSection(id);
-        return getCurrentPage(id, pageNumber, jwtUser);
+        return getCurrentPage(id, pageNumber);
     }
 
     @RequestMapping(value = "/api/books/openBook/{id}", method = RequestMethod.POST, produces = "application/json")
@@ -70,13 +67,12 @@ public class BooksApiController {
             @RequestParam("countCreate") int countCreate,
             @RequestParam("catalogsChoosenList") String catalog_id
     ) {
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+
         String author = lastName + " " + firstName + " " + secondName;
         for (int count = 0; count < countCreate; count++) {
             bookService.createBook(bookNumber, bookName, author, publishingName, yearPublishing, jwtUser.getLibrary_id(), jwtUser.getId(), catalog_id);
         }
-        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage(), jwtUser);
+        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
     }
 
 
@@ -89,10 +85,9 @@ public class BooksApiController {
             @RequestParam("newYearPublishing") String yearPublishing,
             @RequestParam("book_id") String bookId
     ) {
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+
         bookService.editBook(Integer.valueOf(bookId), bookNumber, bookName, author, publishingName, yearPublishing, jwtUser.getId());
-        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage(), jwtUser);
+        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
     }
 
     @RequestMapping(value = "/api/books/deleteBook", method = RequestMethod.POST, produces = "application/json")
@@ -101,11 +96,10 @@ public class BooksApiController {
     ) {
 
         if (books_id != null && books_id.length > 0) {
-            JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
+
             int[] removableId = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
             bookService.deleteBook(removableId);
-            return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage(), jwtUser);
+            return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
         } else {
             throw new NullPointerException("Параметр books_id не предоставлен!");
         }
@@ -116,11 +110,10 @@ public class BooksApiController {
             @RequestParam("choosenBooksForDeleteInCatalog") String[] books_id
     ) {
         if (books_id != null && books_id.length > 0) {
-            JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
+
             int[] removableId = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
             bookService.removeFromCatalog(removableId);
-            return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage(), jwtUser);
+            return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
         } else {
             throw new NullPointerException("Параметр books_id не предоставлен!");
         }
@@ -131,11 +124,10 @@ public class BooksApiController {
             @RequestParam("choosenBooks") String[] books_id,
             @RequestParam("catalogsChoosenList") int catalog_id
     ) {
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+
         int[] moveBooks = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
         bookService.moveBook(moveBooks, catalog_id, jwtUser.getId());
-        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage(), jwtUser);
+        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
     }
 
 
@@ -143,8 +135,7 @@ public class BooksApiController {
     public ResponseEntity getBooksForCreateOrder(
             @RequestParam("selectedBooks") String[] books_id
     ) {
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+
         int[] selectedBooks = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
         ModelMap map = new ModelMap();
         PageRequest pageable = PageRequest.of(0, 10);
@@ -154,8 +145,7 @@ public class BooksApiController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    private ResponseEntity getCurrentPage(String id, int pageNumber, JwtUser jwtUser) {
-
+    private ResponseEntity getCurrentPage(String id, int pageNumber) {
         try {
             PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
             return new ResponseEntity<>(bookService.getPageBooksInCatalog(id, jwtUser.getLibrary_id(), pageable), HttpStatus.OK);

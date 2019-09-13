@@ -1,18 +1,22 @@
 package su.opencode.library.web.controllers.api.orders;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import su.opencode.library.web.controllers.BaseController;
 import su.opencode.library.web.model.entities.BookOrderEntity;
 import su.opencode.library.web.model.entities.TicketEntity;
 import su.opencode.library.web.secure.JwtUser;
+import su.opencode.library.web.service.book.BookService;
+import su.opencode.library.web.service.catalog.CatalogService;
+import su.opencode.library.web.service.library.LibraryService;
 import su.opencode.library.web.service.order.OrdersService;
+import su.opencode.library.web.service.roles.RolesService;
 import su.opencode.library.web.service.ticket.TicketService;
+import su.opencode.library.web.service.user.UserService;
 import su.opencode.library.web.utils.JsonObject.OrderJson;
 
 import java.text.SimpleDateFormat;
@@ -23,15 +27,11 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @RestController
-public class OrdersApiController {
+public class OrdersApiController extends BaseController {
 
-    private final OrdersService ordersService;
-    private final TicketService ticketService;
 
-    @Autowired
-    public OrdersApiController(OrdersService ordersService, TicketService ticketService) {
-        this.ordersService = ordersService;
-        this.ticketService = ticketService;
+    public OrdersApiController(BookService bookService, RolesService rolesService, UserService userService, CatalogService catalogService, OrdersService ordersService, TicketService ticketService, LibraryService libraryService) {
+        super(bookService, rolesService, userService, catalogService, ordersService, ticketService, libraryService);
     }
 
     @RequestMapping(value = "/api/orders/createOrder", method = RequestMethod.POST)
@@ -42,8 +42,6 @@ public class OrdersApiController {
             @RequestParam("ticketCode") String ticketCode
     ) {
         try {
-            JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
             TicketEntity ticketEntity = ticketService.findTicketByCode(ticketCode);
             int[] selectedBooks = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
             Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(giveDate);

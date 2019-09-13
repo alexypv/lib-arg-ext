@@ -1,17 +1,23 @@
 package su.opencode.library.web.controllers.api.search;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import su.opencode.library.web.controllers.BaseController;
 import su.opencode.library.web.controllers.api.orders.OrdersApiController;
 import su.opencode.library.web.controllers.api.users.UsersApiController;
 import su.opencode.library.web.model.entities.BookOrderEntity;
 import su.opencode.library.web.model.entities.UserEntity;
+import su.opencode.library.web.secure.JwtUser;
+import su.opencode.library.web.service.book.BookService;
+import su.opencode.library.web.service.catalog.CatalogService;
+import su.opencode.library.web.service.library.LibraryService;
 import su.opencode.library.web.service.order.OrdersService;
+import su.opencode.library.web.service.roles.RolesService;
 import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
 import su.opencode.library.web.utils.JsonObject.OrderJson;
@@ -22,21 +28,16 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @RestController
-public class SearchApiController {
+public class SearchApiController extends BaseController {
 
-    private final OrdersApiController ordersApiController;
-    private final TicketService ticketService;
-    private final OrdersService ordersService;
-    private final UserService userService;
-    private final UsersApiController usersApiController;
+private final OrdersApiController ordersApiController;
+private final UsersApiController usersApiController;
 
-    @Autowired
-    public SearchApiController(OrdersApiController ordersApiController, TicketService ticketService, OrdersService ordersService, UserService userService, UsersApiController usersApiController) {
+    public SearchApiController(BookService bookService, RolesService rolesService, UserService userService, CatalogService catalogService, OrdersService ordersService, TicketService ticketService, LibraryService libraryService, OrdersApiController ordersApiController, UsersApiController usersApiController) {
+        super(bookService, rolesService, userService, catalogService, ordersService, ticketService, libraryService);
         this.ordersApiController = ordersApiController;
-        this.ticketService = ticketService;
-        this.ordersService = ordersService;
-        this.userService = userService;
         this.usersApiController = usersApiController;
+
     }
 
     @RequestMapping(value = "/api/search/findTicketByCode", method = RequestMethod.POST, produces = "application/json")

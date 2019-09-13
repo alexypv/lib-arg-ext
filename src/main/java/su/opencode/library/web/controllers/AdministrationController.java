@@ -1,6 +1,5 @@
 package su.opencode.library.web.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,7 +8,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import su.opencode.library.web.model.entities.LibraryEntity;
 import su.opencode.library.web.secure.JwtUser;
+import su.opencode.library.web.service.book.BookService;
+import su.opencode.library.web.service.catalog.CatalogService;
 import su.opencode.library.web.service.library.LibraryService;
+import su.opencode.library.web.service.order.OrdersService;
+import su.opencode.library.web.service.roles.RolesService;
+import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
 
 import java.util.ArrayList;
@@ -17,22 +21,17 @@ import java.util.List;
 
 
 @RestController
-public class AdministrationController {
+public class AdministrationController extends BaseController{
 
-    private final LibraryService libraryService;
-    private final UserService userService;
 
-    @Autowired
-    public AdministrationController(LibraryService libraryService, UserService userService) {
-        this.libraryService = libraryService;
-        this.userService = userService;
+    public AdministrationController(BookService bookService, RolesService rolesService, UserService userService, CatalogService catalogService, OrdersService ordersService, TicketService ticketService, LibraryService libraryService) {
+        super(bookService, rolesService, userService, catalogService, ordersService, ticketService, libraryService);
     }
 
     @RequestMapping(value = "/users/loadLibrary", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<List> getLibrary() {
         try {
-            JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
+
             if (jwtUser.getAuthorities().toString().equals("ROLE_GLOBAL")) {
                 return null;
 

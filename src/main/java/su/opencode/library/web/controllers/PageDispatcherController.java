@@ -1,7 +1,6 @@
 package su.opencode.library.web.controllers;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,17 +9,20 @@ import org.springframework.web.servlet.ModelAndView;
 import su.opencode.library.web.model.entities.UserImageEntity;
 import su.opencode.library.web.secure.JwtUser;
 import su.opencode.library.web.service.book.BookService;
+import su.opencode.library.web.service.catalog.CatalogService;
+import su.opencode.library.web.service.library.LibraryService;
+import su.opencode.library.web.service.order.OrdersService;
+import su.opencode.library.web.service.roles.RolesService;
+import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
 
 @Controller
-public class PageDispatcherController {
-    private final BookService bookService;
-    private final UserService userService;
+public class PageDispatcherController extends BaseController {
 
-    @Autowired
-    public PageDispatcherController(BookService bookService, UserService userService) {
-        this.bookService = bookService;
-        this.userService = userService;
+
+    public PageDispatcherController(BookService bookService, RolesService rolesService, UserService userService, CatalogService catalogService, OrdersService ordersService, TicketService ticketService, LibraryService libraryService) {
+        super(bookService, rolesService, userService, catalogService, ordersService, ticketService, libraryService);
+
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/", "/index", "/login"})
@@ -36,8 +38,6 @@ public class PageDispatcherController {
     @RequestMapping("/users")
     public ModelAndView users() {
         ModelAndView modelAndView = new ModelAndView();
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
         modelAndView.setViewName("users");
         String username = jwtUser.getUsername();
         modelAndView.addObject("username", username);
@@ -49,8 +49,6 @@ public class PageDispatcherController {
     @RequestMapping("/home")
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
         modelAndView.setViewName("home");
         String username = jwtUser.getUsername();
         modelAndView.addObject("username", username);
@@ -60,8 +58,6 @@ public class PageDispatcherController {
     @RequestMapping("/profile")
     public ModelAndView profile() {
         try {
-            JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
             ModelAndView modelAndView = new ModelAndView();
             UserImageEntity userImageEntity = userService.getImage(jwtUser.getId());
             modelAndView.addObject("username", jwtUser.getUsername());

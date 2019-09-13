@@ -1,6 +1,5 @@
 package su.opencode.library.web.controllers.api.users;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,8 +7,14 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import su.opencode.library.web.controllers.BaseController;
 import su.opencode.library.web.model.entities.UserEntity;
 import su.opencode.library.web.secure.JwtUser;
+import su.opencode.library.web.service.book.BookService;
+import su.opencode.library.web.service.catalog.CatalogService;
+import su.opencode.library.web.service.library.LibraryService;
+import su.opencode.library.web.service.order.OrdersService;
+import su.opencode.library.web.service.roles.RolesService;
 import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
 import su.opencode.library.web.utils.JsonObject.UserJson;
@@ -17,15 +22,12 @@ import javax.xml.bind.DatatypeConverter;
 
 
 @RestController
-public class UsersApiController {
+public class UsersApiController extends BaseController {
 
-    private final UserService userService;
-    private final TicketService ticketService;
 
-    @Autowired
-    public UsersApiController(UserService userService, TicketService ticketService) {
-        this.userService = userService;
-        this.ticketService = ticketService;
+    public UsersApiController(BookService bookService, RolesService rolesService, UserService userService, CatalogService catalogService, OrdersService ordersService, TicketService ticketService, LibraryService libraryService) {
+        super(bookService, rolesService, userService, catalogService, ordersService, ticketService, libraryService);
+
     }
 
     @RequestMapping(value = "/api/users/createUser", method = RequestMethod.POST, produces = "application/json")
@@ -38,8 +40,7 @@ public class UsersApiController {
             @RequestParam("newRole") int role_id,
             @RequestParam("newLibrary") int library_id
     ) {
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+
         try {
             PageRequest pageable = PageRequest.of(jwtUser.getCurrentPage() - 1, 10);
             String newTicketCode = userService.createUser(username, password, surname, name, secondname, library_id, role_id, jwtUser.getId(), jwtUser.getAuthorities().toString());
@@ -57,8 +58,6 @@ public class UsersApiController {
             @RequestParam int role_id,
             @PathVariable int pageNumber
     ) {
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
         jwtUser.setCurrentPage(pageNumber);
         jwtUser.setCurrentSection(String.valueOf(role_id));
         PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
@@ -71,8 +70,7 @@ public class UsersApiController {
             @RequestParam ("library_id")int library_id,
             @PathVariable int pageNumber
     ) {
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+
         jwtUser.setCurrentPage(pageNumber);
         jwtUser.setCurrentSection(String.valueOf(role_id));
         PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
@@ -100,8 +98,6 @@ public class UsersApiController {
     public ResponseEntity uploadProfileImage(@RequestParam("imageBase64") String file) {
         try {
 
-            JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
             byte[] decodedFile = DatatypeConverter.parseBase64Binary(file.replaceAll("data:image/.+;base64,", ""));
             userService.uploadImage(jwtUser.getId(), decodedFile);
             return new ResponseEntity<>("Successfull", HttpStatus.OK);
@@ -114,8 +110,6 @@ public class UsersApiController {
     @RequestMapping(value = "/api/users/deleteImage")
     public ResponseEntity deleteUserImage() {
         try {
-            JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
             userService.deleteUserImage(jwtUser.getId());
             return new ResponseEntity<>("Successful delete!", HttpStatus.OK);
         } catch (Exception e) {
@@ -134,8 +128,6 @@ public class UsersApiController {
             @RequestParam("password") String password,
             @RequestParam("user_id") int user_id) {
 
-        JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
         try {
             userService.changeUserInfo(user_id, username, password, surname, name, secondname, jwtUser);
             UserEntity userEntity = userService.getUserById(jwtUser.getId());
