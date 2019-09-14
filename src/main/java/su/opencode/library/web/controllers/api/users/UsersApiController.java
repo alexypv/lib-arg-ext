@@ -94,7 +94,7 @@ public class UsersApiController extends BaseController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/users/uploadImage", method = RequestMethod.POST, produces = "application/octet-stream;base64")
+    @RequestMapping(value = "/api/users/uploadImage", method = RequestMethod.POST, produces = "application/image;base64")
     public ResponseEntity uploadProfileImage(@RequestParam("imageBase64") String file) {
         try {
 

@@ -14,17 +14,17 @@ function ajaxUploadPhoto() {
         url: url,
         data: {imageBase64: dataUrl},
         type: 'POST',
-        dataType: 'application/octet-stream;base64',
+        dataType: 'application/image;base64',
         success: function (data, textStatus) {
             $('#confirmActionWindow').modal('hide');
             $('#resultAction').html('Успешно!')
             $("#feedbackDescription").html("Фото успешно обновлено!");
             $('#resultWindow').modal('show');
         },
-        error: function (textStatus, errorThrown) {
+        error: function (jqXHR, errorThrown) {
             $('#confirmActionWindow').modal('hide');
             $('#resultAction').html('Произошла ошибка!')
-            $("#feedbackDescription").html("Произошла ошибка при загрузке/удалении фотографии!");
+            $("#feedbackDescription").html("Произошла ошибка при загрузке/удалении фотографии! Код: " + jqXHR.status );
             $('#resultWindow').modal('show');
         }
     });
