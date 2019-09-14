@@ -1,28 +1,22 @@
 package su.opencode.library.web.service.catalog;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import su.opencode.library.web.model.entities.BookEntity;
 import su.opencode.library.web.model.entities.CatalogEntity;
 import su.opencode.library.web.model.entities.LibraryEntity;
 import su.opencode.library.web.model.entities.UserEntity;
-import su.opencode.library.web.repositories.BookCrudRepository;
-import su.opencode.library.web.repositories.CatalogCrudRepository;
+import su.opencode.library.web.repositories.*;
+import su.opencode.library.RepositoriesService;
 import su.opencode.library.web.utils.JsonObject.CatalogJson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CatalogServiceImpl implements CatalogService {
+public class CatalogServiceImpl extends RepositoriesService implements CatalogService {
 
-    private final CatalogCrudRepository catalogRepository;
-    private final BookCrudRepository bookRepository;
-
-    @Autowired
-    public CatalogServiceImpl(CatalogCrudRepository catalogRepository, BookCrudRepository bookRepository) {
-        this.catalogRepository = catalogRepository;
-        this.bookRepository = bookRepository;
+    public CatalogServiceImpl(BookCrudRepository bookRepository, CatalogCrudRepository catalogRepository, LibraryCrudRepository libraryRepository, OrderPositionCrudRepository orderPositionRepository, OrdersCrudRepository ordersRepository, RoleCrudRepository roleRepository, TicketCrudRepository ticketRepository, UserCrudRepository userRepository, UserImageCrudRepository userImageRepository) {
+        super(bookRepository, catalogRepository, libraryRepository, orderPositionRepository, ordersRepository, roleRepository, ticketRepository, userRepository, userImageRepository);
     }
 
     @Override

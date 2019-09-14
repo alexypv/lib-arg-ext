@@ -12,9 +12,10 @@ public class TicketEntity extends AuditEntity {
     public TicketEntity() {
     }
 
-    public TicketEntity(String code, UserEntity userEntity) {
+    public TicketEntity(String code, UserEntity userEntity, UserEntity creator) {
         this.code = code;
         this.userEntity = userEntity;
+        this.setAuditParamsForCreation(creator);
     }
 
     @Column(name = "CODE", nullable = false, unique = true)

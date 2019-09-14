@@ -23,7 +23,7 @@ public class UserEntity extends AuditEntity {
         super(id);
     }
 
-    public UserEntity(String username, String password, String surname, String name, String secondName, LibraryEntity libraryEntity, List<RoleEntity> roles) {
+    public UserEntity(String username, String password, String surname, String name, String secondName, LibraryEntity libraryEntity, List<RoleEntity> roles, UserEntity creator) {
         this.username = username;
         this.password = password;
         this.surname = surname;
@@ -31,6 +31,7 @@ public class UserEntity extends AuditEntity {
         this.secondName = secondName;
         this.libraryEntity = libraryEntity;
         this.roles = roles;
+        this.setAuditParamsForCreation(creator);
     }
 
     private LibraryEntity libraryEntity;

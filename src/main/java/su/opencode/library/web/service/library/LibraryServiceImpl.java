@@ -1,28 +1,20 @@
 package su.opencode.library.web.service.library;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import su.opencode.library.web.model.entities.LibraryEntity;
 import su.opencode.library.web.model.entities.UserEntity;
-import su.opencode.library.web.repositories.LibraryCrudRepository;
-
-import su.opencode.library.web.repositories.UserCrudRepository;
-import su.opencode.library.web.service.user.UserServiceImpl;
+import su.opencode.library.web.repositories.*;
+import su.opencode.library.RepositoriesService;
 import su.opencode.library.web.utils.IteratorUtils;
 
 import java.util.List;
 import java.util.Objects;
 
 @Service
-public class LibraryServiceImpl implements LibraryService {
+public class LibraryServiceImpl extends RepositoriesService implements LibraryService {
 
-    private final LibraryCrudRepository libraryRepository;
-    private final UserCrudRepository userRepository;
-
-    @Autowired
-    public LibraryServiceImpl(LibraryCrudRepository libraryRepository, UserCrudRepository userRepository) {
-        this.libraryRepository = libraryRepository;
-        this.userRepository = userRepository;
+    public LibraryServiceImpl(BookCrudRepository bookRepository, CatalogCrudRepository catalogRepository, LibraryCrudRepository libraryRepository, OrderPositionCrudRepository orderPositionRepository, OrdersCrudRepository ordersRepository, RoleCrudRepository roleRepository, TicketCrudRepository ticketRepository, UserCrudRepository userRepository, UserImageCrudRepository userImageRepository) {
+        super(bookRepository, catalogRepository, libraryRepository, orderPositionRepository, ordersRepository, roleRepository, ticketRepository, userRepository, userImageRepository);
     }
 
     /**
@@ -37,8 +29,7 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public void createLibrary(String name, int creator_id) {
-        UserEntity creator = userRepository.findById(creator_id).orElse(null);
+    public void createLibrary(String name, UserEntity creator) {
         libraryRepository.save(new LibraryEntity(name, creator));
     }
 

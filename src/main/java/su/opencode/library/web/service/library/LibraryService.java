@@ -2,6 +2,7 @@ package su.opencode.library.web.service.library;
 
 
 import su.opencode.library.web.model.entities.LibraryEntity;
+import su.opencode.library.web.model.entities.UserEntity;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface LibraryService {
      * @param name       название библиотеки.
      * @param creator_id Имя создателя.
      */
-    void createLibrary(String name, int creator_id);
+    void createLibrary(String name, UserEntity creator);
 
     /**
      * @return List<Librarys> список всех библиотек в системе

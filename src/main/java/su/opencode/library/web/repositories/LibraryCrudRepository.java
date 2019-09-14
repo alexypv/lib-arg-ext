@@ -6,4 +6,6 @@ import su.opencode.library.web.model.entities.LibraryEntity;
 
 @Repository
 public interface LibraryCrudRepository extends CrudRepository<LibraryEntity, Integer> {
+
+    LibraryEntity findLibraryEntityByName(String name);
 }

@@ -7,10 +7,12 @@ import su.opencode.library.web.model.entities.UserEntity;
 
 public interface TicketService {
 
-TicketEntity getTicketByUser(UserEntity userEntity);
+    TicketEntity getTicketByUser(UserEntity userEntity);
 
-ModelMap findTicketByCodeContains(String code, Pageable pageable);
+    ModelMap findTicketByCodeContains(String code, Pageable pageable);
 
-TicketEntity findTicketByCode(String code);
+    TicketEntity findTicketByCode(String code);
+
+    String createTicket (UserEntity userEntity, UserEntity creator);
 
 }

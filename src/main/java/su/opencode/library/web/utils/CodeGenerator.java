@@ -7,12 +7,10 @@ import java.util.Date;
 public class CodeGenerator {
 
     public String generateTicketNumber(UserEntity userEntity) {
-        String code = "RT" + userEntity.getId() + userEntity.getLibraryEntity().getId();
-        return code;
+        return "RT" + userEntity.getId() + userEntity.getLibraryEntity().getId();
     }
 
     public String generateOrderNumber() {
-        String code = "RO" + new Date().hashCode();
-        return code;
+        return "RO" + new Date().hashCode();
     }
 }

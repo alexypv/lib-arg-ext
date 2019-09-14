@@ -1,6 +1,5 @@
 package su.opencode.library.web.service.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -8,35 +7,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import su.opencode.library.web.model.entities.*;
-import su.opencode.library.web.repositories.RoleCrudRepository;
-import su.opencode.library.web.repositories.TicketCrudRepository;
-import su.opencode.library.web.repositories.UserCrudRepository;
-import su.opencode.library.web.repositories.UserImageCrudRepository;
+import su.opencode.library.web.repositories.*;
 import su.opencode.library.web.secure.JwtTokenProvider;
 import su.opencode.library.web.secure.JwtUser;
 import su.opencode.library.web.secure.resolutions.create.user.CreateUserResolution;
-import su.opencode.library.web.utils.CodeGenerator;
+import su.opencode.library.RepositoriesService;
+import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.utils.JsonObject.RoleJson;
 import su.opencode.library.web.utils.JsonObject.UserJson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends RepositoriesService implements UserService {
 
-    private final UserCrudRepository userRepository;
-    private final RoleCrudRepository roleRepository;
-    private final TicketCrudRepository ticketRepository;
-    private final UserImageCrudRepository userImageCrudRepository;
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final TicketService ticketService;
 
-    @Autowired
-    public UserServiceImpl(UserCrudRepository userRepository, RoleCrudRepository roleRepository, TicketCrudRepository ticketRepository, UserImageCrudRepository userImageCrudRepository, JwtTokenProvider jwtTokenProvider) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.ticketRepository = ticketRepository;
-        this.userImageCrudRepository = userImageCrudRepository;
+    public UserServiceImpl(BookCrudRepository bookRepository, CatalogCrudRepository catalogRepository, LibraryCrudRepository libraryRepository, OrderPositionCrudRepository orderPositionRepository, OrdersCrudRepository ordersRepository, RoleCrudRepository roleRepository, TicketCrudRepository ticketRepository, UserCrudRepository userRepository, UserImageCrudRepository userImageRepository, JwtTokenProvider jwtTokenProvider, TicketService ticketService) {
+        super(bookRepository, catalogRepository, libraryRepository, orderPositionRepository, ordersRepository, roleRepository, ticketRepository, userRepository, userImageRepository);
         this.jwtTokenProvider = jwtTokenProvider;
+        this.ticketService = ticketService;
     }
 
 
@@ -55,25 +47,20 @@ public class UserServiceImpl implements UserService {
     public String createUser(String username, String password, String surname, String name, String secondName, int library_id, int role_id, int creator_id, String creatorRole) throws AccessDeniedException {
         RoleEntity roleEntity = roleRepository.findById(role_id).get();
         LibraryEntity libraryEntity = new LibraryEntity(library_id);
+        UserEntity creator = new UserEntity(creator_id);
         List<RoleEntity> list = new ArrayList<>();
         list.add(roleEntity);
         // Создаю юзера со всеми параметрами
         if ((creatorRole.equals("[ROLE_GLOBAL]") && CreateUserResolution.getAdminRes().stream().anyMatch(e -> e.toString().contains(roleEntity.getName()))) ||
                 (creatorRole.equals("[ROLE_ADMIN]") && CreateUserResolution.getAdminRes().stream().anyMatch(e -> e.toString().contains(roleEntity.getName()))) ||
                 (creatorRole.equals("[ROLE_LIBRARIER]") && CreateUserResolution.getLibRes().stream().anyMatch(e -> e.toString().contains(roleEntity.getName())))) {
-            UserEntity userEntity = new UserEntity(username, jwtTokenProvider.passwordEncoder().encode(password), surname, name, secondName, libraryEntity, list);
-            userEntity.setAuditParamsForCreation(new UserEntity(creator_id));
+            UserEntity userEntity = new UserEntity(username, jwtTokenProvider.passwordEncoder().encode(password), surname, name, secondName, libraryEntity, list, creator);
+            userEntity.setAuditParamsForCreation(creator);
             // Сохраняю юзера
             userRepository.save(userEntity);
             //Связываю роль и пользователя
-            //Создаю читательский билет
-            CodeGenerator generator = new CodeGenerator();
-            generator.generateTicketNumber(getUserByUsername(username));
-            String code = generator.generateTicketNumber(userEntity);
-            TicketEntity ticket = new TicketEntity(code, userEntity);
-            //Сохраняю читательский билет и пользователя
-            ticketRepository.save(ticket);
-            return ticket.getCode();
+            //Создаю читательский билет и возвращаю его номер
+            return ticketService.createTicket(getUserByUsername(username), creator);
         } else throw new AccessDeniedException("Access denied");
     }
 
@@ -141,17 +128,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void uploadImage(int user_id, byte[] file) {
         UserEntity userEntity = getUserById(user_id);
-        if (userImageCrudRepository.findUserImageEntityByUserEntity(userEntity) != null) {
-            userImageCrudRepository.deleteUserImageEntityByUserEntity(userEntity);
+        if (userImageRepository.findUserImageEntityByUserEntity(userEntity) != null) {
+            userImageRepository.deleteUserImageEntityByUserEntity(userEntity);
         }
-        userImageCrudRepository.save(new UserImageEntity("userimage", "image/png", file, userEntity));
+        userImageRepository.save(new UserImageEntity("userimage", "image/png", file, userEntity));
     }
 
     @Override
     public UserImageEntity getImage(int user_id) {
 
         UserEntity userEntity = getUserById(user_id);
-        return userImageCrudRepository.findUserImageEntityByUserEntity(userEntity);
+        return userImageRepository.findUserImageEntityByUserEntity(userEntity);
     }
 
     @Override
@@ -159,7 +146,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserImage(int user_id) {
 
         UserEntity userEntity = getUserById(user_id);
-        userImageCrudRepository.deleteUserImageEntityByUserEntity(userEntity);
+        userImageRepository.deleteUserImageEntityByUserEntity(userEntity);
     }
 
     @Override

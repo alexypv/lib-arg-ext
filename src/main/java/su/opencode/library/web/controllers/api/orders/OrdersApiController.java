@@ -3,13 +3,11 @@ package su.opencode.library.web.controllers.api.orders;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import su.opencode.library.web.controllers.BaseController;
 import su.opencode.library.web.model.entities.BookOrderEntity;
 import su.opencode.library.web.model.entities.TicketEntity;
-import su.opencode.library.web.secure.JwtUser;
 import su.opencode.library.web.service.book.BookService;
 import su.opencode.library.web.service.catalog.CatalogService;
 import su.opencode.library.web.service.library.LibraryService;
@@ -46,7 +44,7 @@ public class OrdersApiController extends BaseController {
             int[] selectedBooks = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
             Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(giveDate);
             Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(returnDate);
-            String orderCode = ordersService.createOrder(selectedBooks, jwtUser.getId(), startDate, endDate, ticketEntity);
+            String orderCode = ordersService.createOrder(selectedBooks, getJwtUser().getId(), startDate, endDate, ticketEntity);
             return new ResponseEntity<>(orderCode, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

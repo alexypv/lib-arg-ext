@@ -14,7 +14,7 @@ function ajaxUploadPhoto() {
         url: url,
         data: {imageBase64: dataUrl},
         type: 'POST',
-        dataType: 'application/json',
+        dataType: 'application/octet-stream;base64',
         success: function (data, textStatus) {
             $('#confirmActionWindow').modal('hide');
             $('#resultAction').html('Успешно!')

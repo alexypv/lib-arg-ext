@@ -12,9 +12,9 @@ import su.opencode.library.web.service.roles.RolesService;
 import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
 
+
 @Controller
 public class BaseController {
-    protected JwtUser jwtUser = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     protected final BookService bookService;
     protected final RolesService rolesService;
@@ -33,5 +33,9 @@ public class BaseController {
         this.ordersService = ordersService;
         this.ticketService = ticketService;
         this.libraryService = libraryService;
+    }
+
+    protected JwtUser getJwtUser() {
+        return (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

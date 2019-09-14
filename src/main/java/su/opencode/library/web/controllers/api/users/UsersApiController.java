@@ -42,9 +42,9 @@ public class UsersApiController extends BaseController {
     ) {
 
         try {
-            PageRequest pageable = PageRequest.of(jwtUser.getCurrentPage() - 1, 10);
-            String newTicketCode = userService.createUser(username, password, surname, name, secondname, library_id, role_id, jwtUser.getId(), jwtUser.getAuthorities().toString());
-            ModelMap map = userService.getUsersByRolesAndLibrary(role_id, pageable, jwtUser.getLibrary_id());
+            PageRequest pageable = PageRequest.of(getJwtUser().getCurrentPage() - 1, 10);
+            String newTicketCode = userService.createUser(username, password, surname, name, secondname, library_id, role_id, getJwtUser().getId(), getJwtUser().getAuthorities().toString());
+            ModelMap map = userService.getUsersByRolesAndLibrary(role_id, pageable, getJwtUser().getLibrary_id());
             map.addAttribute("newTicketCode", newTicketCode);
             return new ResponseEntity<>(map, HttpStatus.OK);
         }
@@ -58,10 +58,10 @@ public class UsersApiController extends BaseController {
             @RequestParam int role_id,
             @PathVariable int pageNumber
     ) {
-        jwtUser.setCurrentPage(pageNumber);
-        jwtUser.setCurrentSection(String.valueOf(role_id));
+        getJwtUser().setCurrentPage(pageNumber);
+        getJwtUser().setCurrentSection(String.valueOf(role_id));
         PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
-        return new ResponseEntity<>(userService.getUsersByRolesAndLibrary(role_id, pageable, jwtUser.getLibrary_id()), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUsersByRolesAndLibrary(role_id, pageable, getJwtUser().getLibrary_id()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/users/getUsers/{pageNumber}", method = RequestMethod.POST, produces = "application/json")
@@ -71,8 +71,8 @@ public class UsersApiController extends BaseController {
             @PathVariable int pageNumber
     ) {
 
-        jwtUser.setCurrentPage(pageNumber);
-        jwtUser.setCurrentSection(String.valueOf(role_id));
+        getJwtUser().setCurrentPage(pageNumber);
+        getJwtUser().setCurrentSection(String.valueOf(role_id));
         PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
         return new ResponseEntity<>(userService.getUsersByRolesAndLibrary(role_id, pageable, library_id), HttpStatus.OK);
     }
@@ -94,12 +94,12 @@ public class UsersApiController extends BaseController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/users/uploadImage", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/api/users/uploadImage", method = RequestMethod.POST, produces = "application/octet-stream;base64")
     public ResponseEntity uploadProfileImage(@RequestParam("imageBase64") String file) {
         try {
 
             byte[] decodedFile = DatatypeConverter.parseBase64Binary(file.replaceAll("data:image/.+;base64,", ""));
-            userService.uploadImage(jwtUser.getId(), decodedFile);
+            userService.uploadImage(getJwtUser().getId(), decodedFile);
             return new ResponseEntity<>("Successfull", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,7 +110,7 @@ public class UsersApiController extends BaseController {
     @RequestMapping(value = "/api/users/deleteImage")
     public ResponseEntity deleteUserImage() {
         try {
-            userService.deleteUserImage(jwtUser.getId());
+            userService.deleteUserImage(getJwtUser().getId());
             return new ResponseEntity<>("Successful delete!", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -129,16 +129,16 @@ public class UsersApiController extends BaseController {
             @RequestParam("user_id") int user_id) {
 
         try {
-            userService.changeUserInfo(user_id, username, password, surname, name, secondname, jwtUser);
-            UserEntity userEntity = userService.getUserById(jwtUser.getId());
-            jwtUser.setSurname(userEntity.getSurname());
-            jwtUser.setUsername(userEntity.getUsername());
-            jwtUser.setName(userEntity.getName());
-            jwtUser.setSecondname(userEntity.getSecondName());
+            userService.changeUserInfo(user_id, username, password, surname, name, secondname, getJwtUser());
+            UserEntity userEntity = userService.getUserById(getJwtUser().getId());
+            getJwtUser().setSurname(userEntity.getSurname());
+            getJwtUser().setUsername(userEntity.getUsername());
+            getJwtUser().setName(userEntity.getName());
+            getJwtUser().setSecondname(userEntity.getSecondName());
 
             if (getPageUser) {
-                PageRequest pageable = PageRequest.of(jwtUser.getCurrentPage() - 1, 10);
-                return new ResponseEntity<>(userService.getUsersByRolesAndLibrary(Integer.valueOf(jwtUser.getCurrentSection()), pageable, jwtUser.getLibrary_id()), HttpStatus.OK);
+                PageRequest pageable = PageRequest.of(getJwtUser().getCurrentPage() - 1, 10);
+                return new ResponseEntity<>(userService.getUsersByRolesAndLibrary(Integer.valueOf(getJwtUser().getCurrentSection()), pageable, getJwtUser().getLibrary_id()), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("User information has been edited successfully.", HttpStatus.OK);
             }

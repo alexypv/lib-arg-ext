@@ -4,13 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import su.opencode.library.web.controllers.BaseController;
 import su.opencode.library.web.model.entities.BookEntity;
 import su.opencode.library.web.model.entities.RoleEntity;
-import su.opencode.library.web.secure.JwtUser;
 import su.opencode.library.web.service.book.BookService;
 import su.opencode.library.web.service.catalog.CatalogService;
 import su.opencode.library.web.service.library.LibraryService;
@@ -38,8 +36,8 @@ public class BooksApiController extends BaseController {
     public ResponseEntity getBooksInCatalog(@PathVariable String id,
                                             @PathVariable int pageNumber) {
 
-        jwtUser.setCurrentPage(pageNumber);
-        jwtUser.setCurrentSection(id);
+        getJwtUser().setCurrentPage(pageNumber);
+        getJwtUser().setCurrentSection(id);
         return getCurrentPage(id, pageNumber);
     }
 
@@ -70,9 +68,9 @@ public class BooksApiController extends BaseController {
 
         String author = lastName + " " + firstName + " " + secondName;
         for (int count = 0; count < countCreate; count++) {
-            bookService.createBook(bookNumber, bookName, author, publishingName, yearPublishing, jwtUser.getLibrary_id(), jwtUser.getId(), catalog_id);
+            bookService.createBook(bookNumber, bookName, author, publishingName, yearPublishing, getJwtUser().getLibrary_id(), getJwtUser().getId(), catalog_id);
         }
-        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
+        return getCurrentPage( getJwtUser().getCurrentSection(),  getJwtUser().getCurrentPage());
     }
 
 
@@ -86,8 +84,8 @@ public class BooksApiController extends BaseController {
             @RequestParam("book_id") String bookId
     ) {
 
-        bookService.editBook(Integer.valueOf(bookId), bookNumber, bookName, author, publishingName, yearPublishing, jwtUser.getId());
-        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
+        bookService.editBook(Integer.valueOf(bookId), bookNumber, bookName, author, publishingName, yearPublishing, getJwtUser().getId());
+        return getCurrentPage( getJwtUser().getCurrentSection(),  getJwtUser().getCurrentPage());
     }
 
     @RequestMapping(value = "/api/books/deleteBook", method = RequestMethod.POST, produces = "application/json")
@@ -99,7 +97,7 @@ public class BooksApiController extends BaseController {
 
             int[] removableId = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
             bookService.deleteBook(removableId);
-            return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
+            return getCurrentPage( getJwtUser().getCurrentSection(),  getJwtUser().getCurrentPage());
         } else {
             throw new NullPointerException("Параметр books_id не предоставлен!");
         }
@@ -113,7 +111,7 @@ public class BooksApiController extends BaseController {
 
             int[] removableId = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
             bookService.removeFromCatalog(removableId);
-            return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
+            return getCurrentPage( getJwtUser().getCurrentSection(), getJwtUser().getCurrentPage());
         } else {
             throw new NullPointerException("Параметр books_id не предоставлен!");
         }
@@ -126,8 +124,8 @@ public class BooksApiController extends BaseController {
     ) {
 
         int[] moveBooks = Arrays.stream(books_id).mapToInt(Integer::parseInt).toArray();
-        bookService.moveBook(moveBooks, catalog_id, jwtUser.getId());
-        return getCurrentPage(jwtUser.getCurrentSection(), jwtUser.getCurrentPage());
+        bookService.moveBook(moveBooks, catalog_id, getJwtUser().getId());
+        return getCurrentPage(getJwtUser().getCurrentSection(), getJwtUser().getCurrentPage());
     }
 
 
@@ -141,14 +139,14 @@ public class BooksApiController extends BaseController {
         PageRequest pageable = PageRequest.of(0, 10);
         map.addAttribute("booksList", bookService.getBooksById(selectedBooks));
         RoleEntity roleEntity = rolesService.getRoleByName("ROLE_READER");
-        map.addAttribute("readersList", userService.getUsersByRolesAndLibrary(roleEntity.getId(), pageable, jwtUser.getLibrary_id()).get("usersList"));
+        map.addAttribute("readersList", userService.getUsersByRolesAndLibrary(roleEntity.getId(), pageable, getJwtUser().getLibrary_id()).get("usersList"));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     private ResponseEntity getCurrentPage(String id, int pageNumber) {
         try {
             PageRequest pageable = PageRequest.of(pageNumber - 1, 10);
-            return new ResponseEntity<>(bookService.getPageBooksInCatalog(id, jwtUser.getLibrary_id(), pageable), HttpStatus.OK);
+            return new ResponseEntity<>(bookService.getPageBooksInCatalog(id, getJwtUser().getLibrary_id(), pageable), HttpStatus.OK);
         } catch (NumberFormatException e) {
             ModelMap map = new ModelMap();
             map.addAttribute("Error message", HttpStatus.INTERNAL_SERVER_ERROR);

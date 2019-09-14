@@ -1,13 +1,11 @@
 package su.opencode.library.web.controllers;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import su.opencode.library.web.model.entities.UserImageEntity;
-import su.opencode.library.web.secure.JwtUser;
 import su.opencode.library.web.service.book.BookService;
 import su.opencode.library.web.service.catalog.CatalogService;
 import su.opencode.library.web.service.library.LibraryService;
@@ -31,17 +29,21 @@ public class PageDispatcherController extends BaseController {
     }
 
     @RequestMapping("/directory")
-    public String directory() {
-        return "directory";
+    public ModelAndView directory() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("directory");
+        String username = getJwtUser().getUsername();
+        modelAndView.addObject("username", username);
+        return modelAndView;
     }
 
     @RequestMapping("/users")
     public ModelAndView users() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
-        String username = jwtUser.getUsername();
+        String username = getJwtUser().getUsername();
         modelAndView.addObject("username", username);
-        modelAndView.addObject("currentLibrary", jwtUser.getLibrary_id());
+        modelAndView.addObject("currentLibrary", getJwtUser().getLibrary_id());
         return modelAndView;
     }
 
@@ -50,7 +52,7 @@ public class PageDispatcherController extends BaseController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
-        String username = jwtUser.getUsername();
+        String username = getJwtUser().getUsername();
         modelAndView.addObject("username", username);
         return modelAndView;
     }
@@ -59,12 +61,12 @@ public class PageDispatcherController extends BaseController {
     public ModelAndView profile() {
         try {
             ModelAndView modelAndView = new ModelAndView();
-            UserImageEntity userImageEntity = userService.getImage(jwtUser.getId());
-            modelAndView.addObject("username", jwtUser.getUsername());
-            modelAndView.addObject("name", jwtUser.getName());
-            modelAndView.addObject("surname", jwtUser.getSurname());
-            modelAndView.addObject("secondname", jwtUser.getSecondname());
-            modelAndView.addObject("role", jwtUser.getAuthorities().toString());
+            UserImageEntity userImageEntity = userService.getImage(getJwtUser().getId());
+            modelAndView.addObject("username", getJwtUser().getUsername());
+            modelAndView.addObject("name", getJwtUser().getName());
+            modelAndView.addObject("surname", getJwtUser().getSurname());
+            modelAndView.addObject("secondname", getJwtUser().getSecondname());
+            modelAndView.addObject("role", getJwtUser().getAuthorities().toString());
             if (userImageEntity != null) {
                 String imageData = new String(Base64.encodeBase64(userImageEntity.getData()));
                 modelAndView.addObject("image", "data:image/png;base64," + imageData);

@@ -32,12 +32,12 @@ public class AdministrationController extends BaseController{
     public ResponseEntity<List> getLibrary() {
         try {
 
-            if (jwtUser.getAuthorities().toString().equals("ROLE_GLOBAL")) {
+            if (getJwtUser().getAuthorities().toString().equals("ROLE_GLOBAL")) {
                 return null;
 
-            } else if ((jwtUser.getAuthorities().toString().equals("ROLE_ADMIN"))) {
+            } else if ((getJwtUser().getAuthorities().toString().equals("ROLE_ADMIN"))) {
                 List<LibraryEntity> result = new ArrayList<>();
-                result.add(libraryService.getLibraryById(jwtUser.getLibrary_id()));
+                result.add(libraryService.getLibraryById(getJwtUser().getLibrary_id()));
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 return null;

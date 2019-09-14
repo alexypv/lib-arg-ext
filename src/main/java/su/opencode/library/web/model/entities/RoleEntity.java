@@ -7,6 +7,13 @@ import java.util.List;
 @Table(name = "ROLES", schema = "LIBRARY")
 public class RoleEntity extends AuditEntity {
 
+    public RoleEntity() {
+    }
+
+    public RoleEntity(String name) {
+        this.name = name;
+    }
+
     private String name;
 
     @Column(name = "NAME", nullable = false)

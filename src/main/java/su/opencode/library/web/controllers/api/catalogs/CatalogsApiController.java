@@ -30,21 +30,21 @@ public class CatalogsApiController extends BaseController {
 
     @RequestMapping(value = "/api/catalogs/loadCatalogs", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<List> getCatalogs() {
-        return new ResponseEntity<>(catalogService.getCatalogsByLibraryId(jwtUser.getLibrary_id()), HttpStatus.OK);
+        return new ResponseEntity<>(catalogService.getCatalogsByLibraryId(getJwtUser().getLibrary_id()), HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/api/catalogs/createCatalog", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<List> createCatalog(@RequestParam("newCatalogName") String newCatalogName) {
-        catalogService.createCatalog(newCatalogName, jwtUser.getLibrary_id(), jwtUser.getId());
-        return new ResponseEntity<>(catalogService.getCatalogsByLibraryId(jwtUser.getLibrary_id()), HttpStatus.OK);
+        catalogService.createCatalog(newCatalogName, getJwtUser().getLibrary_id(), getJwtUser().getId());
+        return new ResponseEntity<>(catalogService.getCatalogsByLibraryId(getJwtUser().getLibrary_id()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/catalogs/deleteCatalog", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<List> deleteCatalog(@RequestParam("catalogsChoosenList") String[] catalogs_id) {
         int[] removableId = Arrays.stream(catalogs_id).mapToInt(Integer::parseInt).toArray();
         catalogService.deleteCatalogs(removableId);
-        return new ResponseEntity<>(catalogService.getCatalogsByLibraryId(jwtUser.getLibrary_id()), HttpStatus.OK);
+        return new ResponseEntity<>(catalogService.getCatalogsByLibraryId(getJwtUser().getLibrary_id()), HttpStatus.OK);
     }
 
 

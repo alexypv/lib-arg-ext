@@ -1,7 +1,5 @@
 package su.opencode.library.web.service.book;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,8 +8,8 @@ import su.opencode.library.web.model.entities.BookEntity;
 import su.opencode.library.web.model.entities.CatalogEntity;
 import su.opencode.library.web.model.entities.LibraryEntity;
 import su.opencode.library.web.model.entities.UserEntity;
-import su.opencode.library.web.repositories.BookCrudRepository;
-import su.opencode.library.web.repositories.LibraryCrudRepository;
+import su.opencode.library.web.repositories.*;
+import su.opencode.library.RepositoriesService;
 import su.opencode.library.web.utils.JsonObject.BookJson;
 
 import java.util.ArrayList;
@@ -19,15 +17,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl extends RepositoriesService implements BookService {
 
-    private final BookCrudRepository bookRepository;
-    private final LibraryCrudRepository libraryRepository;
-
-    @Autowired
-    public BookServiceImpl(BookCrudRepository bookRepository, LibraryCrudRepository libraryRepository) {
-        this.bookRepository = bookRepository;
-        this.libraryRepository = libraryRepository;
+    public BookServiceImpl(BookCrudRepository bookRepository, CatalogCrudRepository catalogRepository, LibraryCrudRepository libraryRepository, OrderPositionCrudRepository orderPositionRepository, OrdersCrudRepository ordersRepository, RoleCrudRepository roleRepository, TicketCrudRepository ticketRepository, UserCrudRepository userRepository, UserImageCrudRepository userImageRepository) {
+        super(bookRepository, catalogRepository, libraryRepository, orderPositionRepository, ordersRepository, roleRepository, ticketRepository, userRepository, userImageRepository);
     }
 
     @Override
