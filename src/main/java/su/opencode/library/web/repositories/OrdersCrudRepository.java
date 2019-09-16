@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import su.opencode.library.web.model.entities.BookEntity;
 import su.opencode.library.web.model.entities.BookOrderEntity;
+import su.opencode.library.web.model.entities.LibraryEntity;
 import su.opencode.library.web.model.entities.TicketEntity;
 
 @Repository
@@ -26,4 +28,7 @@ public interface OrdersCrudRepository extends CrudRepository<BookOrderEntity, In
     Page<BookOrderEntity> findBookEntitiesByAllParameter(@Param("searchString") String searchString,
                                                          @Param("ticketCode") String ticketCode, Pageable pageable);
 
+    Page<BookOrderEntity> findBookOrderEntitiesByLibraryEntity(LibraryEntity libraryEntity, Pageable pageable);
+
+    Page<BookOrderEntity> findAll(Pageable pageable);
 }

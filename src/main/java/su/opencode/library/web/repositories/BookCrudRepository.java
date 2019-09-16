@@ -35,4 +35,8 @@ public interface BookCrudRepository extends CrudRepository<BookEntity, Integer> 
             "(select o.bookEntity.id from OrderPositionEntity o where o.bookOrderEntity.id = :orderId)")
     Page<BookEntity> getBooksInOrder(@Param("orderId") int orderID, Pageable pageable);
 
+    @Query("select b from BookEntity b where b.id in " +
+            "(select o.bookEntity.id from OrderPositionEntity o where o.bookOrderEntity.id = :orderId)")
+    List<BookEntity> getBooksInOrder(@Param("orderId") int orderID);
+
 }

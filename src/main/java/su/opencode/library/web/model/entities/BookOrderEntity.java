@@ -12,15 +12,17 @@ public class BookOrderEntity extends AuditEntity {
     private Date endDate;
     private Date realReturnDate;
     private TicketEntity ticketEntity;
+    private LibraryEntity libraryEntity;
 
     public BookOrderEntity() {
     }
 
-    public BookOrderEntity(String code, Date startDate, Date endDate, TicketEntity ticketEntity, UserEntity creator) {
+    public BookOrderEntity(String code, Date startDate, Date endDate, TicketEntity ticketEntity, UserEntity creator, LibraryEntity libraryEntity) {
         this.code = code;
         this.startDate = startDate;
         this.endDate = endDate;
         this.ticketEntity = ticketEntity;
+        this.libraryEntity = libraryEntity;
         this.setAuditParamsForCreation(creator);
     }
 
@@ -33,7 +35,7 @@ public class BookOrderEntity extends AuditEntity {
         this.code = code;
     }
 
-    @Column(name = "START_DATE", nullable = true)
+    @Column(name = "START_DATE", columnDefinition = "DATE", nullable = true)
     public Date getStartDate() {
         return startDate;
     }
@@ -42,7 +44,7 @@ public class BookOrderEntity extends AuditEntity {
         this.startDate = startDate;
     }
 
-    @Column(name = "REAL_RETURN_DATE", nullable = true)
+    @Column(name = "REAL_RETURN_DATE", columnDefinition = "DATE", nullable = true)
     public Date getRealReturnDate() {
         return realReturnDate;
     }
@@ -51,7 +53,7 @@ public class BookOrderEntity extends AuditEntity {
         this.realReturnDate = realReturnDate;
     }
 
-    @Column(name = "END_DATE", nullable = true)
+    @Column(name = "END_DATE", columnDefinition = "DATE", nullable = true)
     public Date getEndDate() {
         return endDate;
     }
@@ -68,6 +70,16 @@ public class BookOrderEntity extends AuditEntity {
 
     public void setTicketEntity(TicketEntity ticketEntity) {
         this.ticketEntity = ticketEntity;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "FK_LIBRARY_ID")
+    public LibraryEntity getLibraryEntity() {
+        return libraryEntity;
+    }
+
+    public void setLibraryEntity(LibraryEntity libraryEntity) {
+        this.libraryEntity = libraryEntity;
     }
 
     @Override

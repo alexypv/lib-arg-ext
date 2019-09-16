@@ -80,4 +80,14 @@ public class PageDispatcherController extends BaseController {
             return null;
         }
     }
+
+    @RequestMapping("/orders")
+    public ModelAndView orders() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("orders");
+        String username = getJwtUser().getUsername();
+        modelAndView.addObject("username", username);
+        modelAndView.addObject("libraryID", getJwtUser().getLibrary_id());
+        return modelAndView;
+    }
 }

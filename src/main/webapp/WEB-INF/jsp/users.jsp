@@ -15,7 +15,7 @@
     <script type="text/javascript" src="resources/js/administration/users/users.create-user.js"></script>
     <script type="text/javascript" src="resources/js/administration/users/users.refresh-table.js"></script>
     <script type="text/javascript" src="resources/js/administration/users/users.edit-user.js"></script>
-    <script type="text/javascript" src="resources/js/orders/orders.get-orders.js"></script>
+    <script type="text/javascript" src="resources/js/orders/orders.get-user-orders.js"></script>
     <script type="text/javascript" src="resources/js/orders/orders.get-order-info.js"></script>
     <script type="text/javascript" src="resources/js/search/search.users.js"></script>
     <script type="text/javascript" src="resources/js/search/search.orders.js"></script>
@@ -100,13 +100,15 @@
 </div>
 
 <div class="modal fade" id="userInfoWindow" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width: 600px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div style="text-align: center;"><h4 class="modal-title">Информация о пользователе</h4></div>
             </div>
-            <div id="userInfoField" class="modal-body"></div>
+            <div id="userInfoField" class="modal-body">
+
+            </div>
             <div class="modal-footer">
                 <button id="getUserHistory" value="1" type="button" class="btn btn-primary" style="float:left"
                         onclick="getOrders(1)">Посмотреть историю заказов

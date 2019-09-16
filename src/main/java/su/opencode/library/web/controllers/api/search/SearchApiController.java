@@ -17,6 +17,7 @@ import su.opencode.library.web.service.book.BookService;
 import su.opencode.library.web.service.catalog.CatalogService;
 import su.opencode.library.web.service.library.LibraryService;
 import su.opencode.library.web.service.order.OrdersService;
+import su.opencode.library.web.service.order.OrdersServiceImpl;
 import su.opencode.library.web.service.roles.RolesService;
 import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
@@ -67,15 +68,7 @@ private final UsersApiController usersApiController;
             Page<BookOrderEntity> page = ordersService.searchOrder(searchValue, ticketCode, pageable);
             List<BookOrderEntity> ordersList = page.getContent();
             int countPage = page.getTotalPages();
-            List<OrderJson> result = new ArrayList<>();
-            IntStream.range(0, ordersList.size()).forEach(count -> {
-                OrderJson orderJson = new OrderJson();
-                result.add(orderJson.convertBooksOrderEntityToOrderJson(ordersList.get(count)));
-            });
-            ModelMap map = new ModelMap();
-            map.addAttribute("ordersList", result);
-            map.addAttribute("countPages", countPage);
-            return new ResponseEntity<>(map, HttpStatus.OK);
+            return OrdersApiController.returnOrderResponse(ordersList, countPage);
         }
     }
 

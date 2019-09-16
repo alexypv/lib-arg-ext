@@ -1,15 +1,15 @@
 package su.opencode.library.web.controllers.api.users;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import su.opencode.library.web.controllers.BaseController;
 import su.opencode.library.web.model.entities.UserEntity;
-import su.opencode.library.web.secure.JwtUser;
+import su.opencode.library.web.model.entities.UserImageEntity;
 import su.opencode.library.web.service.book.BookService;
 import su.opencode.library.web.service.catalog.CatalogService;
 import su.opencode.library.web.service.library.LibraryService;
@@ -18,6 +18,7 @@ import su.opencode.library.web.service.roles.RolesService;
 import su.opencode.library.web.service.ticket.TicketService;
 import su.opencode.library.web.service.user.UserService;
 import su.opencode.library.web.utils.JsonObject.UserJson;
+
 import javax.xml.bind.DatatypeConverter;
 
 
@@ -47,8 +48,7 @@ public class UsersApiController extends BaseController {
             ModelMap map = userService.getUsersByRolesAndLibrary(role_id, pageable, getJwtUser().getLibrary_id());
             map.addAttribute("newTicketCode", newTicketCode);
             return new ResponseEntity<>(map, HttpStatus.OK);
-        }
-        catch (AccessDeniedException e) {
+        } catch (AccessDeniedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
@@ -66,8 +66,8 @@ public class UsersApiController extends BaseController {
 
     @RequestMapping(value = "/api/users/getUsers/{pageNumber}", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity getUsersByRoleAndLibrary(
-            @RequestParam ("role_id") int role_id,
-            @RequestParam ("library_id")int library_id,
+            @RequestParam("role_id") int role_id,
+            @RequestParam("library_id") int library_id,
             @PathVariable int pageNumber
     ) {
 
@@ -82,16 +82,25 @@ public class UsersApiController extends BaseController {
     public ResponseEntity getUserInfo(
             @PathVariable int id
     ) {
-
+        ModelMap map = new ModelMap();
         UserJson user = new UserJson();
         UserEntity userEntity = userService.getUserById(id);
         user = user.convertUserEntityToUserJson(userEntity);
+        UserImageEntity userImageEntity = userService.getImage(id);
+        if (userImageEntity != null) {
+            String imageData = new String(Base64.encodeBase64(userImageEntity.getData()));
+            map.addAttribute("userImage", "data:image/png;base64," + imageData);
+        } else {
+            map.addAttribute("userImage", "resources/img/icon/noimage.png");
+        }
         try {
             user.setTicketCode(ticketService.getTicketByUser(userEntity).getCode());
         } catch (NullPointerException e) {
             user.setTicketCode("-");
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+
+        map.addAttribute("userInfo", user);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/users/uploadImage", method = RequestMethod.POST, produces = "application/image;base64")
@@ -147,5 +156,7 @@ public class UsersApiController extends BaseController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
 }

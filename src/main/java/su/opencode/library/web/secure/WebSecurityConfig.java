@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/books/moveBook",
                         "/api/books/getBooksForCreateOrder",
                         "/api/orders/createOrder"
+
                 ).hasAnyRole("LIBRARIER", "ADMIN", "GLOBAL")
 
                 .antMatchers(
