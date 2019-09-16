@@ -8,8 +8,8 @@ import su.opencode.library.RepositoriesService;
 import su.opencode.library.web.model.entities.*;
 import su.opencode.library.web.repositories.*;
 import su.opencode.library.web.utils.CodeGenerator;
-
-import java.util.Date;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -62,7 +62,7 @@ public class OrdersServiceImpl extends RepositoriesService implements OrdersServ
     @Override
     public void returnOrder(int orderID, UserEntity returner) {
         BookOrderEntity bookOrderEntity = ordersRepository.findById(orderID).get();
-        bookOrderEntity.setRealReturnDate(new Date());
+        bookOrderEntity.setRealReturnDate(new Date(Calendar.getInstance().getTime().getTime()));
         bookOrderEntity.setAuditParamsForUpdate(returner);
         List<BookEntity> booksInOrder = bookRepository.getBooksInOrder(orderID);
         for (BookEntity book : booksInOrder) {

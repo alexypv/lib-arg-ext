@@ -1,7 +1,7 @@
 package su.opencode.library.web.model.entities;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "BOOKSORDER", schema = "LIBRARY")

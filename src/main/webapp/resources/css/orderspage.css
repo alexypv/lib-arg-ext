@@ -8,12 +8,42 @@ body {
     background-position: 0 0, -1px -1px, -1px 1px;
 }
 
-#content {
+#sidebar, #content {
     position: absolute;
 
 }
-#content {
+
+#sidebar, #content {
+
     padding: 10px;
+}
+
+#sidebar {
+    width: 300px;
+    border-right: 2px solid #e673a2;
+    top: 50px; /* Расстояние от верхнего края */
+    bottom: 0; /* Расстояние снизу  */
+
+}
+
+
+#rolesMenu {
+    width: 298px;
+    list-style-type: none;
+    padding: 10px;
+    margin: 0;
+}
+
+#rolesMenu li a {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    display: block;
+    cursor: pointer;
+}
+
+#rolesMenu li a:hover {
+    background-color: #eee;
 }
 
 #header h1 {
@@ -24,7 +54,10 @@ body {
 
 #content {
     top: 30px; /* Расстояние от верхнего края */
+    left: 300px; /* Расстояние от левого края */
+    bottom: 3px;
     overflow: auto;
+    width:100%;
 }
 
 * {
@@ -70,13 +103,6 @@ body {
     background-color: #f1f1f1;
 }
 
-#actionButtonGroup {
-    position: absolute;
-    bottom: 30px;
-    left: 10px;
-    width: 95%;
-
-}
 
 
 #snackbar {
@@ -103,32 +129,3 @@ body {
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
-#ordersBooksTable {
-    display: block;
-    overflow: auto;
-    max-height: 30%;
-    border-collapse: collapse;
-    max-width: 100%;
-    border: 1px solid #ddd;
-    font-size: 11px;
-}
-
-body .modal-dialog { /* Width */
-    max-width: 70%;
-    width: auto;
-}
-
-
-#ordersBooksTable th, #ordersBooksTable td {
-    text-align: center;
-    padding: 12px;
-}
-
-#ordersBooksTable tr {
-    border-bottom: 1px solid #ddd;
-
-}
-
-#ordersBooksTable tr.header, #ordersBooksTable tr:hover {
-    background-color: #f1f1f1;
-}
