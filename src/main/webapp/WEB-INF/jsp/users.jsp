@@ -6,21 +6,21 @@
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="resources/css/simplePagination.css"/>
-    <link type="text/css" rel="stylesheet" href="resources/css/userspage.css"/>
-    <script src="resources/js/jquery/3.3.1/jquery.min.js"></script>
-    <script src="resources/js/bootstrap/3.4.0/bootstrap.min.js"></script>
-    <script type="text/javascript" src="resources/js/administration/users/users.table-pagination.js"></script>
-    <script type="text/javascript" src="resources/js/administration/users/roles.load.all.js"></script>
-    <script type="text/javascript" src="resources/js/administration/users/users.create-user.js"></script>
-    <script type="text/javascript" src="resources/js/administration/users/users.refresh-table.js"></script>
-    <script type="text/javascript" src="resources/js/administration/users/users.edit-user.js"></script>
-    <script type="text/javascript" src="resources/js/orders/orders.get-user-orders.js"></script>
-    <script type="text/javascript" src="resources/js/orders/orders.get-order-info.js"></script>
-    <script type="text/javascript" src="resources/js/search/search.users.js"></script>
-    <script type="text/javascript" src="resources/js/search/search.orders.js"></script>
-    <script type="text/javascript" src="resources/js/administration/users/users.open-user.js" async></script>
-    <script type="text/javascript" src="resources/js/administration/users/users.get-users.js" async></script>
+    <link type="text/css" rel="stylesheet" href="css/simplePagination.css"/>
+    <link type="text/css" rel="stylesheet" href="css/userspage.css"/>
+    <script src="js/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/bootstrap/3.4.0/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/administration/users/users.table-pagination.js"></script>
+    <script type="text/javascript" src="js/administration/users/roles.load.all.js"></script>
+    <script type="text/javascript" src="js/administration/users/users.create-user.js"></script>
+    <script type="text/javascript" src="js/administration/users/users.refresh-table.js"></script>
+    <script type="text/javascript" src="js/administration/users/users.edit-user.js"></script>
+    <script type="text/javascript" src="js/orders/orders.get-user-orders.js"></script>
+    <script type="text/javascript" src="js/orders/orders.get-order-info.js"></script>
+    <script type="text/javascript" src="js/search/search.users.js"></script>
+    <script type="text/javascript" src="js/search/search.orders.js"></script>
+    <script type="text/javascript" src="js/administration/users/users.open-user.js" async></script>
+    <script type="text/javascript" src="js/administration/users/users.get-users.js" async></script>
 
     <title>Пользователи</title>
 </head>

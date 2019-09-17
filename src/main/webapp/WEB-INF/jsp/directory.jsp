@@ -6,25 +6,25 @@
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="resources/css/simplePagination.css"/>
-    <link type="text/css" rel="stylesheet" href="resources/css/directorypage.css"/>
-    <script src="resources/js/jquery/3.3.1/jquery.min.js"></script>
-    <script src="resources/js/bootstrap/3.4.0/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/simplePagination.css"/>
+    <link type="text/css" rel="stylesheet" href="css/directorypage.css"/>
+    <script src="js/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/bootstrap/3.4.0/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="resources/js/jquery/jquery.simplePagination.js"></script>
-    <script type="text/javascript" src="resources/js/directorypage/catalog.create.js"></script>
-    <script type="text/javascript" src="resources/js/directorypage/catalog.delete.js" async></script>
-    <script type="text/javascript" src="resources/js/directorypage/catalog.load.all.js" async></script>
-    <script type="text/javascript" src="resources/js/directorypage/catalog.open.js" async></script>
-    <script type="text/javascript" src="resources/js/directorypage/book/catalog.create-book.js"></script>
-    <script type="text/javascript" src="resources/js/directorypage/book/catalog.delete-book.js"></script>
-    <script type="text/javascript" src="resources/js/directorypage/book/catalog.move-book.js"></script>
-    <script type="text/javascript" src="resources/js/directorypage/book/catalog.edit-book.js" async></script>
-    <script type="text/javascript" src="resources/js/directorypage/book/catalog.open-book.js" async></script>
-    <script type="text/javascript" src="resources/js/directorypage/book/catalog.delete-book-from-catalog.js"></script>
-    <script type="text/javascript" src="resources/js/directorypage/catalog.refresh-table.js"></script>
-    <script type="text/javascript" src="resources/js/directorypage/catalog.check-user-select.js" async></script>
-    <script type="text/javascript" src="resources/js/directorypage/catalog.create-order.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery.simplePagination.js"></script>
+    <script type="text/javascript" src="js/directorypage/catalog.create.js"></script>
+    <script type="text/javascript" src="js/directorypage/catalog.delete.js" async></script>
+    <script type="text/javascript" src="js/directorypage/catalog.load.all.js" async></script>
+    <script type="text/javascript" src="js/directorypage/catalog.open.js" async></script>
+    <script type="text/javascript" src="js/directorypage/book/catalog.create-book.js"></script>
+    <script type="text/javascript" src="js/directorypage/book/catalog.delete-book.js"></script>
+    <script type="text/javascript" src="js/directorypage/book/catalog.move-book.js"></script>
+    <script type="text/javascript" src="js/directorypage/book/catalog.edit-book.js" async></script>
+    <script type="text/javascript" src="js/directorypage/book/catalog.open-book.js" async></script>
+    <script type="text/javascript" src="js/directorypage/book/catalog.delete-book-from-catalog.js"></script>
+    <script type="text/javascript" src="js/directorypage/catalog.refresh-table.js"></script>
+    <script type="text/javascript" src="js/directorypage/catalog.check-user-select.js" async></script>
+    <script type="text/javascript" src="js/directorypage/catalog.create-order.js"></script>
 
 
     <title>Каталог</title>

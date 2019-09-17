@@ -6,14 +6,14 @@
 <head>
     <meta charset="utf-8" content="width=device-width, initial-scale=1" name="viewport">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="resources/css/profilepage.css"/>
-    <link type="text/css" rel="stylesheet" href="resources/css/jcrop.css"/>
-    <script src="resources/js/jquery/3.3.1/jquery.min.js"></script>
-    <script src="resources/js/bootstrap/3.4.0/bootstrap.min.js"></script>
-    <script src="resources/js/profile/profile.photo.upload.js"></script>
-    <script src="resources/js/profile/profile.photo.delete.js"></script>
-    <script src="resources/js/profile/profile.edit.js"></script>
-    <script src="resources/js/jquery/jcrop.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/profilepage.css"/>
+    <link type="text/css" rel="stylesheet" href="css/jcrop.css"/>
+    <script src="js/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/bootstrap/3.4.0/bootstrap.min.js"></script>
+    <script src="js/profile/profile.photo.upload.js"></script>
+    <script src="js/profile/profile.photo.delete.js"></script>
+    <script src="js/profile/profile.edit.js"></script>
+    <script src="js/jquery/jcrop.js"></script>
     <title>Профиль</title>
 
 </head>

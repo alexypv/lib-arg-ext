@@ -6,12 +6,12 @@
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="resources/css/simplePagination.css"/>
-    <link type="text/css" rel="stylesheet" href="resources/css/orderspage.css"/>
-    <script src="resources/js/jquery/3.3.1/jquery.min.js"></script>
-    <script src="resources/js/bootstrap/3.4.0/bootstrap.min.js"></script>
-    <script type="text/javascript" src="resources/js/administration/users/users.table-pagination.js"></script>
-    <script type="text/javascript" src="resources/js/orders/orders.get-orders-in-library.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/simplePagination.css"/>
+    <link type="text/css" rel="stylesheet" href="css/orderspage.css"/>
+    <script src="js/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/bootstrap/3.4.0/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/administration/users/users.table-pagination.js"></script>
+    <script type="text/javascript" src="js/orders/orders.get-orders-in-library.js"></script>
 
     <title>Пользователи</title>
 </head>
