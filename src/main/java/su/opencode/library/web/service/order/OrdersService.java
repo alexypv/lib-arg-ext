@@ -7,7 +7,7 @@ import su.opencode.library.web.model.entities.LibraryEntity;
 import su.opencode.library.web.model.entities.TicketEntity;
 import su.opencode.library.web.model.entities.UserEntity;
 
-import java.sql.Date;
+import java.util.Date;
 
 public interface OrdersService {
 
