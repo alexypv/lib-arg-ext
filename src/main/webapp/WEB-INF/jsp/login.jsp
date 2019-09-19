@@ -32,10 +32,26 @@
     <button type="submit" class="btn">Войти</button>
 </form>
 
+<div class="container">
+    <form action="j_spring_security_check" method="post" style="max-width:500px;margin:auto">
+        <h2>Вход в систему</h2>
+        <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input class="input-field" type="text" placeholder="Введите имя пользователя" name="j_username">
+        </div>
+
+        <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="password" placeholder="Введите пароль" name="j_password">
+        </div>
+        <button type="submit" class="btn">Войти</button>
+    </form>
+</div>
+
+
 <script>
     Ext.onReady(function(){
-
-        let loginForm = Ext.create('Ext.form.Panel', {
+        var loginForm = Ext.create('Ext.form.Panel', {
             title: 'Авторизация',
             width: 300,
             height: 150,
@@ -75,3 +91,5 @@
 
 </body>
 </html>
+
+
