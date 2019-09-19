@@ -7,7 +7,7 @@
 --%>
 
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -16,41 +16,69 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script type="text/javascript"  src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript"  src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="<spring:url value="js/ext-4/resources/css/ext-all.css" />"type="text/css">
+    <script type="text/javascript" src="<spring:url value="js/ext-4/ext-all.js"/>"></script>
     <title>Главная</title>
     <style type="text/css">
-        body {
-            margin: 0;
-            background-color: #fdfdfd;
-            background-image: linear-gradient(90deg, transparent 298px, #e673a2 298px, #e673a2 300px, transparent 300px),
-            linear-gradient(#e8e7e7 1px, transparent 0px),
-            linear-gradient(90deg, #e8e7e7 1px, transparent 0px);
-            background-size: 100% 100%, 15px 15px, 15px 15px;
-            background-position: 0 0, -1px -1px, -1px 1px;
-        }
+
     </style>
 </head>
 <body>
-<nav class="navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="home">Главная</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="directory">Каталог книг</a></li>
-            <li><a href="users" class="active">Пользователи</a></li>
-            <li><a href="#">Журнал выдачи книг</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
+<script type="text/javascript">
+    Ext.require('*');
+    Ext.onReady(function() {
+        var currentName,
+            panelCache = [],
+            panel,
+            replace = function(config, name) {
+                var btns = Ext.getCmp('btns');
+                if (name && name != currentName) {
+                    currentName = name;
+                    if (btns.items.length) {
+                        btns.remove(0, false);
+                    } else {
+                        btns.body.innerHTML = '';
+                    }
+                    config.border = false,
+                        panel = panelCache[name] || (panelCache[name] = Ext.widget('panel', config));
+                    btns.add(panel);
+                }
+            };
 
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">${username}<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="profile">Личный кабинет</a></li>
-                    <li><a href="logout">Выйти</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
+        Ext.create('Ext.Viewport', {
+            layout:'border',
+            title: 'Список пользователей',
+            items: [{
+                id:'btns',
+                region:'west',
+                split:true,
+                width:300,
+                minWidth: 100,
+                maxWidth: 300,
+                layout:'fit',
+                margin: '5 0 5 5',
+
+            }, {
+                region:'center',
+                margin: '5 5 5 0',
+                dockedItems:[{
+                    xtype: 'toolbar',
+                    enableOverflow: true,
+                    dock: 'top',
+                    defaults:{
+                        margin:'0 5 0 0',
+                        pressed: false,
+                        toggleGroup:'btns',
+                        allowDepress: false
+                    },
+                    items: [{
+
+                    }]
+                }]
+            }]
+        });
+    });
+
+</script>
 </body>
 </html>

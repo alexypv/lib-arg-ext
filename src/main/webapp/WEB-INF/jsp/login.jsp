@@ -16,38 +16,34 @@
     <script type="text/javascript" src="<spring:url value="js/ext-4/ext-all.js"/>"></script>
 
 </head>
+<style>
+
+    body {
+        margin: 0;
+        background-color: #fdfdfd;
+        background-image: linear-gradient(90deg, transparent 98px, #e673a2 98px, #e673a2 300px, transparent 300px),
+        linear-gradient(#e8e7e7 1px, transparent 0px),
+        linear-gradient(90deg, #e8e7e7 1px, transparent 0px);
+        background-size: 100% 100%, 15px 15px, 15px 15px;
+        background-position: 0 0, -1px -1px, -1px 1px;
+    }
+
+    .container {
+        position: absolute;
+        top: 0;
+        bottom: 100px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 300px;
+        height: 150px;
+    }
+
+</style>
+
 <body>
 
-<form action="j_spring_security_check" method="post" style="max-width:500px;margin:auto">
-    <h2>Вход в систему</h2>
-    <div class="input-container">
-        <i class="fa fa-user icon"></i>
-        <input class="input-field" type="text" placeholder="Введите имя пользователя" name="j_username">
-    </div>
-
-    <div class="input-container">
-        <i class="fa fa-key icon"></i>
-        <input class="input-field" type="password" placeholder="Введите пароль" name="j_password">
-    </div>
-    <button type="submit" class="btn">Войти</button>
-</form>
-
-<div class="container">
-    <form action="j_spring_security_check" method="post" style="max-width:500px;margin:auto">
-        <h2>Вход в систему</h2>
-        <div class="input-container">
-            <i class="fa fa-user icon"></i>
-            <input class="input-field" type="text" placeholder="Введите имя пользователя" name="j_username">
-        </div>
-
-        <div class="input-container">
-            <i class="fa fa-key icon"></i>
-            <input class="input-field" type="password" placeholder="Введите пароль" name="j_password">
-        </div>
-        <button type="submit" class="btn">Войти</button>
-    </form>
-</div>
-
+<div id ="loginForm" class="container"></div>
 
 <script>
     Ext.onReady(function(){
@@ -61,7 +57,7 @@
             defaults: {
                 anchor: '80%'
             },
-            renderTo: Ext.getBody(),
+            renderTo: Ext.getElementById('loginForm'),
             items: [{
                 xtype: 'textfield',
                 fieldLabel: 'Логин',
@@ -76,12 +72,11 @@
             buttons: [{
                 text: 'Оправить',
                 handler: function () {
+                    loginForm.getForm().standartSubmit = true;
                     loginForm.getForm().submit({
                         url: 'j_spring_security_check',
-                        success: function (form, action) {
-                        },
-                        failure: function (form, action) {
-                        }
+                        standardSubmit: true,
+                        method: 'POST'
                     });
                 }
             }]
