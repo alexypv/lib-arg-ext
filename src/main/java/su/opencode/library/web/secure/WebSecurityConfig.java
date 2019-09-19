@@ -33,6 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
+        httpSecurity.authorizeRequests().antMatchers("/js/**").permitAll().anyRequest().permitAll();
+
         // включаем защиту от CSRF атак;
         httpSecurity.csrf()
                 .disable()

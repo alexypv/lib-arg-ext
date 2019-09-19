@@ -1,128 +1,77 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: popov.a
-  Date: 20.08.2019
-  Time: 11:47
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="css/loginpage.css"/>
-    <title>Вход в систему</title>
-    <style>
-        body {
-            background-color: GhostWhite;
-        }
 
-        body {
-            margin: 0;
-            background-color: #fdfdfd;
-            background-image: linear-gradient(90deg, transparent 98px, #e673a2 98px, #e673a2 300px, transparent 300px),
-            linear-gradient(#e8e7e7 1px, transparent 0px),
-            linear-gradient(90deg, #e8e7e7 1px, transparent 0px);
-            background-size: 100% 100%, 15px 15px, 15px 15px;
-            background-position: 0 0, -1px -1px, -1px 1px;
-        }
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <%--<meta http-equiv="X-UA-Compatible" content="IE=8" />--%>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>Вход в системку</title>
 
 
-        * {
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" href="<spring:url value="js/ext-4/resources/css/ext-all.css" />" type="text/css">
+    <script type="text/javascript" src="<spring:url value="js/ext-4/ext-all.js"/>"></script>
 
-        .container {
-            position: absolute;
-            top: 0;
-            bottom: 100px;
-            left: 0;
-            right: 0;
-            margin: auto;
-            width: 400px;
-            height: 230px;
-
-        }
-
-        .input-container {
-            display: -ms-flexbox; /* IE10 */
-            display: flex;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .icon {
-            padding: 10px;
-            background: dodgerblue;
-            color: white;
-            min-width: 50px;
-            text-align: center;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            outline: none;
-        }
-
-        .input-field:focus {
-            border: 2px solid dodgerblue;
-        }
-
-        /* Set a style for the submit button */
-        .btn {
-            background-color: dodgerblue;
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            opacity: 0.9;
-        }
-
-        h2 {
-
-            text-align: center;
-        }
-
-        .footer {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 50px;
-        }
-
-        .btn:hover {
-            opacity: 1;
-        }
-    </style>
 </head>
 <body>
 
-<div class="container">
-    <form action="j_spring_security_check" method="post" style="max-width:500px;margin:auto">
-        <h2>Вход в систему</h2>
-        <div class="input-container">
-            <i class="fa fa-user icon"></i>
-            <input class="input-field" type="text" placeholder="Введите имя пользователя" name="j_username">
-        </div>
+<form action="j_spring_security_check" method="post" style="max-width:500px;margin:auto">
+    <h2>Вход в систему</h2>
+    <div class="input-container">
+        <i class="fa fa-user icon"></i>
+        <input class="input-field" type="text" placeholder="Введите имя пользователя" name="j_username">
+    </div>
 
-        <div class="input-container">
-            <i class="fa fa-key icon"></i>
-            <input class="input-field" type="password" placeholder="Введите пароль" name="j_password">
-        </div>
-        <button type="submit" class="btn">Войти</button>
-    </form>
-</div>
+    <div class="input-container">
+        <i class="fa fa-key icon"></i>
+        <input class="input-field" type="password" placeholder="Введите пароль" name="j_password">
+    </div>
+    <button type="submit" class="btn">Войти</button>
+</form>
 
-<div class="footer">
-    <p><a href="https://github.com/alexypv" target="_blank">Link on GitHub</a></p>
-</div>
+<script>
+    Ext.onReady(function(){
+
+        let loginForm = Ext.create('Ext.form.Panel', {
+            title: 'Авторизация',
+            width: 300,
+            height: 150,
+            bodyPadding: 10,
+            layout: 'anchor',
+            frame: true,
+            defaults: {
+                anchor: '80%'
+            },
+            renderTo: Ext.getBody(),
+            items: [{
+                xtype: 'textfield',
+                fieldLabel: 'Логин',
+                name: 'j_username'
+            },
+                {
+                    xtype: 'textfield',
+                    name: 'j_password',
+                    fieldLabel: 'Пароль',
+                    inputType: 'password'
+                }],
+            buttons: [{
+                text: 'Оправить',
+                handler: function () {
+                    loginForm.getForm().submit({
+                        url: 'j_spring_security_check',
+                        success: function (form, action) {
+                        },
+                        failure: function (form, action) {
+                        }
+                    });
+                }
+            }]
+        });
+    });
+</script>
 
 </body>
 </html>
